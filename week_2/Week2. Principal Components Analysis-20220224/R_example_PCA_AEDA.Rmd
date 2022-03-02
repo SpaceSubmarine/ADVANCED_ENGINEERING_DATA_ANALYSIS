@@ -1,0 +1,371 @@
+---
+title: "Principal component analysis (PCA)"
+author: "Daniel Fernández"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: html_document
+#output: pdf_document 
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Exploring the data set
+
+We always start by deleting all the possible objects of R that could have been left in memory. 
+
+```{r, include=TRUE}
+rm(list = ls())
+```
+
+In the 1988 Olympics held in Seoul, the heptathlon was won
+by one of the stars of woman's athletics in the USA, Jackie
+Joyner-Kersee.
+
+The heptathlon data set in the R package HSAUR3 contains
+the results for all 25 competitors in all seven disciplines.
+
+We will apply PCA with a view to exploring the structure of
+these data and assessing how the PCs relate to the scores
+assigned by the official scoring system.
+
+First, we load the packages we will need. The packages dplyr and kableExtra will help us to use the pipe operator %>% and print beautiful tables.
+
+```{r message=FALSE,warning=FALSE}
+library(dplyr)
+library(kableExtra)
+library(HSAUR3)
+```
+
+We attach the data
+
+```{r, include=TRUE}
+data(heptathlon)
+```
+
+and we check the dimension
+
+```{r, include=TRUE}
+dim(heptathlon)
+```
+
+Let's print the table (it has small dimension) using kable and the pipe operator
+
+```{r, include=TRUE}
+heptathlon %>%
+  kbl(caption = "Heptathlon results in 1988 Olympics held in Seoul") %>%
+  kable_classic(full_width = F, html_font = "Cambria")
+```
+
+Let's check a couple of people two see their results.
+
+The "classic" way would be:
+```{r, include=TRUE}
+heptathlon[c(14,25),]
+```
+
+Using dplyr we can use "slice" with select rows, and kbl
+```{r, include=TRUE}
+heptathlon %>% slice(c(14,25)) %>% 
+                kbl() %>%
+                 kable_classic(full_width = F, html_font = "Cambria")
+```
+
+You can observe that the scores of the different events do not have the same direction, i.e., hurdles, run200m, and run800m. Those three events the lower value the better. However, the other events have a different direction (the more, the better).
+
+Thus, we change the direction of the hurdles, run200m, and run800m to have all seven events in the same direction
+
+```{r, include=TRUE}
+heptathlon$hurdles <- with(heptathlon, max(hurdles)-hurdles)
+heptathlon$run200m <- with(heptathlon, max(run200m)-run200m)
+heptathlon$run800m <- with(heptathlon, max(run800m)-run800m)
+```
+
+And print it again:
+```{r, include=TRUE}
+heptathlon %>% slice(c(14,25)) %>% 
+                kbl() %>%
+                 kable_classic(full_width = F, html_font = "Cambria")
+```
+
+Now we have all events in the same direction and all are numeric variables. Therefore, we can graph scatter plots in pairs. 
+
+```{r, include=TRUE}
+score <- which(colnames(heptathlon) == "score")
+plot(heptathlon[, -score])
+```
+
+and the correlation matrix (as all attributes are numeric)
+
+```{r, include=TRUE}
+round(cor(heptathlon[,-score]), 2) %>% 
+                kbl() %>%
+                 kable_classic(full_width = F, html_font = "Cambria")
+```
+
+Using the packages ggplot2 and GGally, we can do all last two things in one 
+
+```{r, message=FALSE}
+library(ggplot2)
+library(GGally)
+```
+
+```{r, include=TRUE}
+ggpairs(heptathlon[, -score])
+```
+
+What can you observe in the scatter plot?
+
+```{r, include=TRUE}
+heptathlon %>%
+  kbl(caption = "Heptathlon results in 1988 Olympics held in Seoul") %>%
+  kable_classic(full_width = F, html_font = "Cambria")
+```
+
+Laura (PNG) (last row) is the outlier (values 0 in hurdles and run800m). Check also the left-skewed tails in the density plots. 
+
+We can deal with it, but let's remove it.
+
+```{r, include=TRUE}
+heptathlon <- heptathlon[-grep("PNG", rownames(heptathlon)), ]
+```
+Note: the "grep" command searches for matches to argument "PNG" within each element of a character vector "rownames(heptathlon)".
+
+And now check the scatter plots and correlation matrix again:
+```{r, include=TRUE}
+ggpairs(heptathlon[, -score])
+```
+
+## PCA using princomp
+
+Let's list the definitive data set 
+
+```{r, include=TRUE}
+hept_def <- heptathlon[, -score]
+hept_def %>%
+  kbl(caption = "Heptathlon results in 1988 Olympics held in Seoul") %>%
+  kable_classic(full_width = F, html_font = "Cambria")
+```
+
+Because the results for the seven heptathlon events are on
+different scales we shall extract the PCs from the p × p
+correlation matrix **R**. In that case, we do not to have to centered the data set (*hept_def*)
+
+Thus, we run the PCA using princomp and stating that we will use the correlation matrix (*cor=TRUE*)
+
+```{r, include=TRUE}
+heptathlon_pca <- princomp(hept_def, cor=TRUE)
+```
+
+
+
+The result is a list containing the coefficients defining each
+component, the PC scores, etc.
+```{r, include=TRUE}
+str(heptathlon_pca)
+```
+Let's check the results step by step.
+
+The coefficients (also called loadings or loading vector) for the first PC are obtained as
+```{r, include=TRUE}
+a1 <- heptathlon_pca$loadings[,1]
+a1
+```
+
+We can check that is a vector orthonormal (i.e., length 1) computing the dot product of the vector with itself (the result must be 1)
+```{r, include=TRUE}
+a1%*%a1
+```
+
+Each loading vector is **unique**, up to a sign flip.
+
+We can check that two vectors are orthogonal if they are perpendicular to each other, i.e., the dot product of the two vectors is zero
+```{r, include=TRUE}
+a2 <- heptathlon_pca$loadings[,2]
+a1%*%a2
+```
+R doesn't give us a 0 because of the rounding of the numbers. However, it is a number very close to zero `r a1%*%a2`.
+ 
+#### Rescaled coefficients
+The loadings can be **rescaled** so that coefficients for the most
+important components are larger than those for less important
+components 
+The rescaled loadings for the 1st PC are calculated, using the  standard deviations of the principal components, as
+
+```{r, include=TRUE}
+rescaleda1 <- a1 * heptathlon_pca$sdev[1]
+rescaleda1
+```
+
+#### The variance explained by the principal components
+
+The summary function reports the standard deviation, proportion of
+variance, and the cumulative proportion of variance
+
+```{r, include=TRUE}
+summary(heptathlon_pca)
+```
+
+We can calculate the proportion of variance explained by the components
+
+```{r, include=TRUE}
+pr.var <- heptathlon_pca$sdev^2
+pve <- pr.var/sum(pr.var)
+pve
+```
+
+We can plot this proportion of variance explained
+
+```{r, include=TRUE}
+plot(pve, xlab="Principal Component",
+ylab="Proportion of Variance Explained",
+ylim=c(0,1),type='b')
+```
+
+and we can also plot the cumulative proportion of variance explained
+```{r, include=TRUE}
+plot(cumsum(pve), xlab="Principal Component",
+ylab="Cumulative Proportion of Variance Explained",
+ylim=c(0,1),type='b')
+```
+
+#### Criteria for choosing the number of components
+
+We plot the *scree plot*. There are two ways:
+
+1. Using the variance
+
+```{r, include=TRUE}
+plot(heptathlon_pca$sdev^2, xlab="Component number",
+ylab="Component variance", type="l")
+```
+
+2.Using the *screeplot* command
+```{r, include=TRUE}
+screeplot(heptathlon_pca, type="l", main="Screeplot heptathlon")
+```
+
+#### Principal component scores
+
+The PC scores are the values of each PCs (linear combination of the original variables) evaluated in the data set.
+
+In this example, we can use the PCA scores to see if can predict well the total number of points in the heptathlon competition.
+
+There are two ways of obtained the PC scores:
+
+```{r, include=TRUE}
+head(heptathlon_pca$scores) %>%
+  kbl(caption = "Heptathlon results in 1988 Olympics held in Seoul") %>%
+  kable_classic(full_width = F, html_font = "Cambria")
+```
+
+or
+
+```{r, include=TRUE}
+head(predict(heptathlon_pca)) %>%
+  kbl(caption = "Heptathlon results in 1988 Olympics held in Seoul") %>%
+  kable_classic(full_width = F, html_font = "Cambria")
+```
+
+We can check that the PCs are uncorrelated (all values are 0)
+
+```{r, include=TRUE}
+cor(heptathlon_pca$scores) %>%
+  kbl(caption = "Heptathlon results in 1988 Olympics held in Seoul") %>%
+  kable_classic(full_width = F, html_font = "Cambria")
+```
+
+Let's finally graph if the first PC1 scores can predict the Olympic heptathlon total number of points. 
+
+
+```{r, include=TRUE}
+pc1.scores <- heptathlon_pca$scores[,1]
+plot(heptathlon$score, pc1.scores)
+```
+
+It predicts very well only with the first PC because PC1 explains quite a lot of the total of the original variance (`r round(pve[1]*100,2)`%) .
+
+#### PCA biplots
+
+```{r, include=TRUE}
+biplot(heptathlon_pca)
+```
+
+It does not look very well because there is text overlapping
+
+Let's improve the graph:
+
+1. Let's load the R package **factoextra** for visualization
+
+```{r message=FALSE,warning=FALSE}
+library(factoextra)
+```
+
+2. With this package we can improve the graphs of PCA such as the screeplot (i.e. show the percentage of variances explained by each principal component) and biplots (i.e. show the component scores and the variable loadings obtained by PCA in two or three dimensions)
+
+```{r, include=TRUE}
+fviz_eig(heptathlon_pca)
+```
+
+3. Graph of athletes. Athletes with a similar profile are grouped together.
+
+```{r, include=TRUE}
+fviz_pca_ind(heptathlon_pca,
+             col.ind = "contrib", # Color by the contribution 
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE,     # Avoid text overlapping
+             title="Athletes heptathlon - PCA")
+```
+
+An individual (athletes) PCA plot (a.k.a. **score plot**) shows clusters of athletes based on their similarity.
+
+What is graphed in the score plot is the PC score calculated for each athlete:
+
+
+```{r, include=TRUE}
+rbind(heptathlon_pca$scores[,1], heptathlon_pca$scores[,2])
+```
+
+4. Graph of variables (heptathlon events). Positive correlated variables point to the same side of the plot. Negative correlated variables point to opposite sides of the graph.
+
+```{r, include=TRUE}
+fviz_pca_var(heptathlon_pca,
+             col.var = "contrib", # Color by contributions to the PC
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE,     # Avoid text overlapping
+             title="Heptathlon events - PCA")
+```
+
+A variable (event) plot (a.k.a. **loading plot**) shows how strongly each event influences a principal component.
+
+What is graphed in the loading plot is the rescaled loadings
+```{r, include=TRUE}
+rbind(a1 * heptathlon_pca$sdev[1], a2 * heptathlon_pca$sdev[2])
+```
+
+5. PCA Biplot of heptathlon athletes and events simultaneously 
+
+```{r, include=TRUE}
+fviz_pca_biplot(heptathlon_pca, repel = TRUE,
+                col.var = "#2E9FDF", # Variables color
+                col.ind = "#696969",  # Individuals color
+             title="Heptathlon biplot - PCA")
+```
+
+A PCA biplot = PCA score plot + loading plot
+
+For example, look at the top left corner: the athletes Choubenkova (URSS), John (GDR), and Behmer (GDR), and the event run800m are depicted together. If we check the data we see that those three athletes stood out in that event
+
+Or look on Joyner-Kersee (USA), who stood out in long jump (the top of all athletes).
+
+```{r, include=TRUE}
+heptathlon %>%
+  kbl(caption = "Heptathlon results in 1988 Olympics held in Seoul") %>%
+  kable_classic(full_width = F, html_font = "Cambria")
+```
+
+Finally, I recommend to save an image of all objects created in the session.
+```{r, include=TRUE}
+save.image(file="R_Example_PCA_AEDA.RData")
+```
+

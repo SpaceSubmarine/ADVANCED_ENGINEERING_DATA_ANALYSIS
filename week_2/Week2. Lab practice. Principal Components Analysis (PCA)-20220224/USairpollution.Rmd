@@ -1,0 +1,87 @@
+---
+title: "Principal component analysis (PCA)"
+#author: "Daniel Steffen Unkel, Thomas Klein-Heßling"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: html_document
+---
+ 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## PCA and PCR
+
+
+
+The data frame `USairpollution` in the R package `HSAUR2` contains air pollution data of 41 US cities. 
+
+```{r message=FALSE,warning=FALSE}
+library(HSAUR2)
+head(USairpollution)
+attach(USairpollution)
+```
+
+The question of most interest about these data is probably how the pollution level as measured by sulphur dioxide concentration (`SO2`) is related to the six other variables. However, we first ignore the `SO2` variable and concentrate on the others, two of which relate to human ecology (`popul`,`manu`) and four to climate (`temp`, `wind`, `precip`, `predays`). We replace the `temp` by a variable representing negative temperatures, since then all six variables are such that high values represent a less attractive environment.
+
+```{r}
+USairpollution$negtemp <- temp*(-1)
+USairpollution <- USairpollution[,c(1,8,3:7)]
+attach(USairpollution)
+head(USairpollution)
+```
+
+```{r}
+round(cor(USairpollution[,-1]),2) # sample correlation matrix
+plot(USairpollution[,-1]) # matrix scatterplot
+```
+
+
+#### PCA
+
+We carry on with a PCA of the data for all 41 cities. We take the correlation matrix as an input for PCA as the six variables are measured on very different scales.
+
+```{r}
+usair.pc<-princomp(USairpollution[,-1],cor=TRUE) 
+summary(usair.pc,loadings=TRUE)
+```
+
+The first three PCs all have variances greater than one 
+and together account for almost 85% of the variance of the original variables. The loadings are scaled such that their sum of squares is unity (blanks indicate near zero values).
+
+**Interpretation of PCs**
+
+1st component: some index of "quality of life" (QoL) with high values indicating a relatively "poor" environment.
+
+2nd component: high coefficients for `precip` and `predays`, and might be labeled as the "wet weather" component.
+
+3rd component: Contrast between `precip` and `negtemp`, and will separate cities having high temperatures and high rainfall from those that are colder but drier. A suitable label might be simply "climate type".
+
+**PC scores**
+
+```{r}
+usair.pc$scores[,1:3]
+```
+
+```{r}
+par(pty="s")
+plot(usair.pc$scores[,1],usair.pc$scores[,2],
+ylim=range(usair.pc$scores[,1]),
+xlab="QoL",ylab="Wet weather",type="n",lwd=2)
+text(usair.pc$scores[,1],usair.pc$scores[,2],
+labels=abbreviate(row.names(USairpollution)),cex=0.7,lwd=2)
+
+par(pty="s")
+plot(usair.pc$scores[,1],usair.pc$scores[,3],
+ylim=range(usair.pc$scores[,1]),
+xlab="QoL",ylab="Climate type",type="n",lwd=2)
+text(usair.pc$scores[,1],usair.pc$scores[,3],
+labels=abbreviate(row.names(USairpollution)),cex=0.7,lwd=2)
+
+par(pty="s")
+plot(usair.pc$scores[,2],usair.pc$scores[,3],
+ylim=range(usair.pc$scores[,2]),
+xlab="Wet weather",ylab="Climate type",type="n",lwd=2)
+text(usair.pc$scores[,2],usair.pc$scores[,3],
+labels=abbreviate(row.names(USairpollution)),cex=0.7,lwd=2)
+```

@@ -1,0 +1,2620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>PCA - Principal Component Analysis Essentials - Articles - STHDA</title>
+<meta charset="UTF-8" />
+<meta name="generator" content="PHPBoost" />
+<link rel="canonical" href="http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/112-pca-principal-component-analysis-essentials/" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:image" content="http://www.sthda.com/english/logo_200px_fb_sharing.png">
+        <meta property="og:image:type" content="image/png">
+        <meta property="og:image:alt" content="STHDA Logo">
+        <meta property="og:description" content="Statistical tools for data analysis and visualization">
+        
+<link rel="stylesheet" href="/english/cache/css/sthda/css-cache-79b066d50842bc196d6b6bdbb35611f4.css" type="text/css" media="screen, print" />
+<link rel="stylesheet" href="/english/cache/css/sthda/css-cache-1f8319396ecc51cb8e03f74122b51f4f.css" type="text/css" media="screen, print" />
+<link rel="shortcut icon" href="/english/logo.png" type="image/png" />
+<link rel="stylesheet" href="/english/templates/sthda/ak/knitr.rcode.style.css"/>
+<link rel="stylesheet" href="/english/templates/sthda/ak/style.blue.css"/>
+<link rel="stylesheet" href="/english/templates/sthda/ak/youtube.embed.light.css"/>
+<script type="text/javascript" src= "/english/templates/sthda/ak/youtube.embed.light.js"></script>
+ 
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+</head>
+<body itemscope="itemscope" itemtype="http://schema.org/WebPage">
+<header id="header">
+<div id="top-header">
+<div id="site-infos">
+<div id="site-logo" style="background-image: url(/english/images/customization/all_sthda-logo.png);"></div>
+<div id="site-name-container">
+<a id="site-name" href="/english/">STHDA</a>
+<!--=================AK================-->
+<span style="font-size:12px;">
+                    
+                    <a href="http://www.sthda.com/french" style="color:white;"> 
+                            <img src="/english/images/stats/countries/fr.png" class="valign_middle" style="width:15px;"/></a> 
+                    <a href="http://www.sthda.com/english" style="color:white;">
+                        <img src="/english/images/stats/countries/uk.png" class="valign_middle" style="width:15px;"/></a>
+                </span>
+                <!--================End AK==============-->
+<span id="site-slogan">Statistical tools for high-throughput data analysis</span>
+</div>
+</div>
+<div id="top-header-content">
+<div class="block-container">
+<div class="block-contents">
+<div>
+Licence: <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/" target="_blank"><img alt="Licence Creative Commons" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/fr/88x31.png" /></a>
+</div>
+</div>
+</div>
+<div id="module-mini-search">
+<form action="/english/search/search.php#results" onsubmit="return check_search_mini_form_post();" method="post">
+<div id="mini-search-form" class="input-element-button">
+<input type="search" id="TxTMiniSearched" title="Your search" name="q" value="" placeholder="Search...">
+<input type="hidden" id="search-token" name="token" value="14e2ed99673455ae">
+<button type="submit" name="search_submit"><i class="fa fa-search"></i></button>
+</div>
+</form>
+</div>
+</div>
+</div>
+<div id="sub-header">
+<div id="sub-header-content">
+ 
+ 
+<nav id="cssmenu-1764" class="cssmenu cssmenu-horizontal cssmenu-with-submenu">
+<a href="/english/wiki/r-software" title="Link to page R & Data Mining" class="cssmenu-img cssmenu-img-level-0">
+</a>
+<ul class="level-0"> 
+<li>
+<a href="/english/" title="Link to page Home" class="cssmenu-title">Home</a>
+</li>
+ 
+ 
+<li class="has-sub" >
+<a href="/english/wiki/r-basics-quick-and-easy" title="Link to page Basics" class="cssmenu-title">Basics</a>
+ 
+<ul class="level-1"> 
+<li>
+<a href="/english/wiki/what-is-r-and-why-learning-r-programming" title="Link to page What's R and Why R?" class="cssmenu-title">What's R and Why R?</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/installing-r-and-rstudio-easy-r-programming" title="Link to page Installing R/RStudio" class="cssmenu-title">Installing R/RStudio</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/running-rstudio-and-setting-up-your-working-directory-easy-r-programming" title="Link to page Running R/RStudio" class="cssmenu-title">Running R/RStudio</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/easy-r-programming-basics" title="Link to page R Programming Basics" class="cssmenu-title">R Programming Basics</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/getting-help-with-functions-in-r-programming" title="Link to page Getting Help" class="cssmenu-title">Getting Help</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/installing-and-using-r-packages" title="Link to page Installing R Packages" class="cssmenu-title">Installing R Packages</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/r-built-in-data-sets" title="Link to page R Built-in data sets" class="cssmenu-title">R Built-in data sets</a>
+</li>
+</ul>
+</li>
+ 
+ 
+<li class="has-sub" >
+<span class="cssmenu-title">Data</span>
+ 
+<ul class="level-1"> 
+<li>
+<a href="/english/wiki/importing-data-into-r" title="Link to page Import" class="cssmenu-title">Import</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/exporting-data-from-r" title="Link to page Export" class="cssmenu-title">Export</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/preparing-and-reshaping-data-in-r-for-easier-analyses" title="Link to page Reshape" class="cssmenu-title">Reshape</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/data-manipulation-in-r" title="Link to page Manipulate" class="cssmenu-title">Manipulate</a>
+</li>
+</ul>
+</li>
+ 
+ 
+<li class="has-sub" >
+<a href="/english/wiki/data-visualization" title="Link to page Visualize" class="cssmenu-title">Visualize</a>
+ 
+<ul class="level-1"> 
+<li>
+<a href="/english/articles/32-r-graphics-essentials/" title="Link to page R Graphics Essentials" class="cssmenu-title">R Graphics Essentials</a>
+</li>
+ 
+<li>
+<a href="/english/articles/24-ggpubr-publication-ready-plots/" title="Link to page Easy Publication Ready Plots" class="cssmenu-title">Easy Publication Ready Plots</a>
+</li>
+ 
+<li>
+<a href="/english/articles/33-social-network-analysis/" title="Link to page Network Analysis and Visualization" class="cssmenu-title">Network Analysis and Visualization</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/ggplot2-essentials" title="Link to page GGplot2" class="cssmenu-title">GGplot2</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/r-base-graphs" title="Link to page R Base Graphs" class="cssmenu-title">R Base Graphs</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/lattice-graphs" title="Link to page Lattice Graphs" class="cssmenu-title">Lattice Graphs</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/3d-graphics" title="Link to page 3D Graphics" class="cssmenu-title">3D Graphics</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/the-elements-of-choosing-colors-for-great-data-visualization-in-r" title="Link to page How to Choose Great Colors?" class="cssmenu-title">How to Choose Great Colors?</a>
+</li>
+</ul>
+</li>
+ 
+ 
+<li class="has-sub" >
+<span class="cssmenu-title">Analyze</span>
+ 
+<ul class="level-1"> 
+ 
+<li class="has-sub" >
+<a href="/english/wiki/r-basic-statistics" title="Link to page Statistics" class="cssmenu-title">Statistics</a>
+ 
+<ul class="level-2"> 
+<li>
+<a href="/english/wiki/descriptive-statistics-and-graphics" title="Link to page Descriptive Statistics and Graphics" class="cssmenu-title">Descriptive Statistics and Graphics</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/normality-test-in-r" title="Link to page Normality Test in R" class="cssmenu-title">Normality Test in R</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/statistical-tests-and-assumptions" title="Link to page Statistical Tests and Assumptions" class="cssmenu-title">Statistical Tests and Assumptions</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/correlation-analyses-in-r" title="Link to page Correlation Analysis" class="cssmenu-title">Correlation Analysis</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/comparing-means-in-r" title="Link to page Comparing Means" class="cssmenu-title">Comparing Means</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/comparing-variances-in-r" title="Link to page Comparing Variances" class="cssmenu-title">Comparing Variances</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/comparing-proportions-in-r" title="Link to page Comparing Proportions" class="cssmenu-title">Comparing Proportions</a>
+</li>
+</ul>
+</li>
+ 
+ 
+<li class="has-sub" >
+<a href="/english/wiki/survival-analysis" title="Link to page Survival" class="cssmenu-title">Survival</a>
+ 
+<ul class="level-2"> 
+<li>
+<a href="/english/wiki/survival-analysis-basics" title="Link to page Survival Analysis Basics" class="cssmenu-title">Survival Analysis Basics</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/cox-proportional-hazards-model" title="Link to page Cox Proportional Hazards Model" class="cssmenu-title">Cox Proportional Hazards Model</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/cox-model-assumptions" title="Link to page Cox Model Assumptions" class="cssmenu-title">Cox Model Assumptions</a>
+</li>
+</ul>
+</li>
+ 
+ 
+<li class="has-sub" >
+<a href="/english/articles/25-cluster-analysis-in-r-practical-guide/" title="Link to page Clustering" class="cssmenu-title">Clustering</a>
+ 
+<ul class="level-2"> 
+<li>
+<a href="/english/articles/26-clustering-basics/" title="Link to page Clustering basics" class="cssmenu-title">Clustering basics</a>
+</li>
+ 
+<li>
+<a href="/english/articles/27-partitioning-clustering-essentials/" title="Link to page Partitioning clustering" class="cssmenu-title">Partitioning clustering</a>
+</li>
+ 
+<li>
+<a href="/english/articles/28-hierarchical-clustering-essentials/" title="Link to page Hierarchical clustering" class="cssmenu-title">Hierarchical clustering</a>
+</li>
+ 
+<li>
+<a href="/english/articles/29-cluster-validation-essentials/" title="Link to page Clustering Evaluation & Validation" class="cssmenu-title">Clustering Evaluation & Validation</a>
+</li>
+ 
+<li>
+<a href="/english/articles/30-advanced-clustering/" title="Link to page Advanced clustering" class="cssmenu-title">Advanced clustering</a>
+</li>
+ 
+<li>
+<a href="/english/articles/25-cluster-analysis-in-r-practical-guide/108-clustering-example-4-steps-you-should-know/" title="Link to page Quick Guide for Cluster Analysis" class="cssmenu-title">Quick Guide for Cluster Analysis</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/beautiful-dendrogram-visualizations-in-r-5-must-known-methods-unsupervised-machine-learning" title="Link to page Visualize Dendrograms: 5+ methods" class="cssmenu-title">Visualize Dendrograms: 5+ methods</a>
+</li>
+</ul>
+</li>
+ 
+<li>
+<a href="/english/articles/31-principal-component-methods-in-r-practical-guide/" title="Link to page Principal Component Methods" class="cssmenu-title">Principal Component Methods</a>
+</li>
+ 
+<li>
+<a href="/english/articles/11-machine-learning/" title="Link to page Machine Learning Essentials" class="cssmenu-title">Machine Learning Essentials</a>
+</li>
+</ul>
+</li>
+ 
+<li>
+<a href="https://www.datanovia.com/en/data-science-and-online-business-resources/" title="Link to page Resources" class="cssmenu-title">Resources</a>
+</li>
+ 
+ 
+<li class="has-sub" >
+<a href="https://www.datanovia.com/en/data-science-and-online-business-resources/" title="Link to page Our Products" class="cssmenu-title">Our Products</a>
+ 
+<ul class="level-1"> 
+<li>
+<a href="https://www.datanovia.com/en/data-science-and-online-business-resources/" title="Link to page Books" class="cssmenu-title">Books</a>
+</li>
+ 
+ 
+<li class="has-sub" >
+<a href="https://rpkgs.datanovia.com/" title="Link to page R Packages" class="cssmenu-title">R Packages</a>
+ 
+<ul class="level-2"> 
+<li>
+<a href="/english/wiki/factoextra-r-package-easy-multivariate-data-analyses-and-elegant-visualization" title="Link to page factoextra" class="cssmenu-title">factoextra</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/survminer-r-package-survival-data-analysis-and-visualization" title="Link to page survminer" class="cssmenu-title">survminer</a>
+</li>
+ 
+<li>
+<a href="/english/articles/24-ggpubr-publication-ready-plots/" title="Link to page ggpubr" class="cssmenu-title">ggpubr</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/ggcorrplot-visualization-of-a-correlation-matrix-using-ggplot2" title="Link to page ggcorrplot" class="cssmenu-title">ggcorrplot</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/fastqcr-an-r-package-facilitating-quality-controls-of-sequencing-data-for-large-numbers-of-samples" title="Link to page fastqcr" class="cssmenu-title">fastqcr</a>
+</li>
+</ul>
+</li>
+ 
+<li>
+<a href="/english/rsthda" title="Link to page Web App" class="cssmenu-title">Web App</a>
+</li>
+</ul>
+</li>
+ 
+ 
+<li class="has-sub" >
+<span class="cssmenu-title">Support</span>
+ 
+<ul class="level-1"> 
+<li>
+<a href="/english/forum" title="Link to page Forum" class="cssmenu-title">Forum</a>
+</li>
+ 
+<li>
+<a href="/english/contact" title="Link to page Contact" class="cssmenu-title">Contact</a>
+</li>
+</ul>
+</li>
+ 
+<li>
+<a href="http://www.alboukadel.com/" title="Link to page About" class="cssmenu-title">About</a>
+</li>
+</ul>
+</nav>
+</div>
+<div class="spacer"></div>
+</div>
+<div class="spacer"></div>
+</header>
+<div id="global">
+<aside id="menu-left">
+<div id="module-connect" class="connect-menu not-connected module-mini-container vertical">
+<div class="module-mini-top">
+<div class="sub-title">Sign in</div>
+</div>
+<div class="module-mini-contents connect-contents">
+<div class="connect-containers">
+<div class="connect-input-container vertical-fieldset" >
+<form action="/english/user/login/" method="post" onsubmit="return check_connect();" class="form-element">
+<label for="login">
+<span>Login</span>
+<input type="text" id="login" name="login" title="Login" placeholder="Login">
+</label>
+<label for="password">
+<span>Password</span>
+<input type="password" id="password" name="password" title="Password" placeholder="Password">
+</label>
+<label for="autoconnect">
+<span>Auto connect</span>
+<input checked="checked" type="checkbox" id="autoconnect" name="autoconnect" title="Auto connect">
+</label>
+<input type="hidden" name="redirect" value="/articles/31-principal-component-methods-in-r-practical-guide/112-pca-principal-component-analysis-essentials/">
+<input type="hidden" name="token" value="14e2ed99673455ae">
+<button type="submit" name="authenticate" value="internal" class="submit">Sign in</button>
+</form>
+</div>
+<div class="connect-register-container">
+<a class="connect-register small" href="/english/user/registration/">
+<i class="fa fa-ticket"></i><span>Register</span>
+</a>
+<a class="social-connect fb" href="/english/user/login/?authenticate=fb">
+<i class="fa fa-facebook"></i><span>Sign in with Facebook</span>
+</a>
+</div>
+<div class="forget-pass-container">
+<a class="forgot-pass small" href="/english/user/password/lost/">
+<i class="fa fa-question-circle"></i><span>Forgotten password</span>
+</a>
+</div>
+</div>
+</div>
+<div class="module-mini-bottom">
+</div> 
+</div>
+<div class="module-mini-container">
+<div class="module-mini-top">
+<div class="sub-title">Welcome!</div>
+</div>
+<div class="module-mini-contents">
+<span style="color:#FC4E07;">Want to Learn More on R Programming and Data Science?</span><br>
+Follow us <a href="https://feedburner.google.com/fb/a/mailverify?uri=datanovia&loc=en_US">by Email</a>
+<form style="border: 1px solid #2E9FDF;padding:3px;text-align:center; border-left: 6px solid #2E9FDF;" action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open('https://feedburner.google.com/fb/a/mailverify?uri=datanovia', 'popupwindow', 'scrollbars=yes,width=550,height=520');return true"><p><input type="text" style="width:140px" name="email"/></p><input type="hidden" value="datanovia" name="uri"/><input type="hidden" name="loc" value="en_US"/><input type="submit" value="Subscribe" /><p>by <a href="https://feedburner.google.com" target="_blank">FeedBurner</a></p></form>
+<br/>
+<div class="addthis_inline_follow_toolbox"></div>
+<div>
+    <br/>
+    <span style="color:#FC4E07;"><a href="https://www.datanovia.com/en/data-science-and-online-business-resources/" target="_blank">Click to see our collection of resources to help you on your path...</a></span>
+    <br/>
+</div>
+<!--
+<br/>
+<span style="color:#FC4E07;">Recommended Courses for You</span><br><br/>
+<ul>
+<li><a href="https://www.datanovia.com/en/zwf6" target="_blank">How to Become a Machine Learning Engineer</a></li>
+    
+<li><a href="https://www.datanovia.com/en/09iy" target="_blank">
+Learn AI Programming with Python</a></li>
+    
+<li><a href="https://www.datanovia.com/en/ynw5" target="_blank" rel="nofollow">
+Programming for Data Science with Python</a></li>
+    
+<li><a href="https://www.datanovia.com/en/tgy4" target="_blank" rel="nofollow">
+Programming for Data Science with R</a></li>
+    
+<li><a href="https://www.datanovia.com/en/7787" target="_blank" rel="nofollow">
+Become a Data Engineer</a></li>
+    
+<li><a href="https://www.datanovia.com/en/2obq">Become a Deep-Learning Engineer</a></li>
+</ul>
+<br/>
+<div>
+<a class="dt-sc-button  small filled"  style="color:#FC4E07;" href="https://www.datanovia.com/en/data-science-and-online-business-resources/" target="_blank">See More Resources</a>
+</div>
+-->
+</div>
+<div class="module-mini-bottom">
+</div>
+</div>
+<div class="module-mini-container">
+<div class="module-mini-top">
+<div class="sub-title">Course & Specialization</div>
+</div>
+<div class="module-mini-contents">
+<div style="text-align:left;">
+<br/>
+<span style="color:#FC4E07;">Recommended for You (on Coursera):</span>
+<ul>
+<li><a href="https://www.datanovia.com/en/xkkk" target="_blank" rel="nofollow">Course: Machine Learning: Master the Fundamentals</a></li>
+    
+<li><a href="https://www.datanovia.com/en/e85g" target="_blank" rel="nofollow">
+Specialization: Data Science</a></li>
+    
+<li><a href="https://www.datanovia.com/en/xepy" target="_blank" rel="nofollow">
+Specialization: Python for Everybody</a></li>
+    
+<li><a href="https://www.datanovia.com/en/mm6m" target="_blank" rel="nofollow">
+Course: Build Skills for a Top Job in any Industry</a></li>
+    
+<li><a href="https://www.datanovia.com/en/xxae" target="_blank" rel="nofollow">
+Specialization: Master Machine Learning Fundamentals</a></li>
+    
+<li><a href="https://www.datanovia.com/en/2j0s" target="_blank" rel="nofollow">Specialization: Statistics with R</a></li>
+    
+<li><a href="https://www.datanovia.com/en/ih09" target="_blank" rel="nofollow">Specialization: Software Development in R</a></li>
+    
+<li><a href="https://www.datanovia.com/en/sprm" target="_blank" rel="nofollow">Specialization: Genomic Data Science</a></li>
+</ul>
+<br/><br/>
+<div>
+<a class="dt-sc-button  small filled" href="https://www.datanovia.com/en/data-science-and-online-business-resources/">See More Resources</a>
+</div>
+</div>
+</div>
+<div class="module-mini-bottom">
+</div>
+</div>
+<div class="module-mini-container">
+<div class="module-mini-top">
+</div>
+<div class="module-mini-contents">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-5474463749888038"
+                         data-ad-slot="4712884969"
+                         data-ad-format="link"></ins>
+                    
+</div>
+<div class="module-mini-bottom">
+</div>
+</div>
+ 
+ 
+ 
+<div class="module-mini-container">
+<div class="module-mini-top menu-vertical-0 hidden-small-screens">
+<a href="/english/wiki/r-packages" title="Link to page R Packages" class="cssmenu-title sub-title">
+R Packages</a>
+</div>
+<div class="module-mini-contents">
+<nav id="cssmenu-1825" class="cssmenu cssmenu-vertical cssmenu-left cssmenu-with-submenu">
+<ul class="level-0"> 
+ 
+<li class="has-sub" >
+<a href="/english/wiki/factoextra-r-package-easy-multivariate-data-analyses-and-elegant-visualization" title="Link to page factoextra" class="cssmenu-title"><img src="/english/wiki/wiki_mini.png" alt="factoextra" height="16" width="16" /> factoextra</a>
+ 
+<ul class="level-1"> 
+<li>
+<a href="/english/wiki/factoextra-r-package-easy-multivariate-data-analyses-and-elegant-visualization" title="Link to page Overview" class="cssmenu-title">Overview</a>
+</li>
+ 
+<li>
+<a href="/english/rpkgs/factoextra" title="Link to page Official Doc" class="cssmenu-title">Official Doc</a>
+</li>
+ 
+ 
+<li class="has-sub" >
+<span class="cssmenu-title">Related Tutorials</span>
+ 
+<ul class="level-2"> 
+<li>
+<a href="/english/wiki/cluster-analysis-in-r-unsupervised-machine-learning" title="Link to page Cluster Analysis" class="cssmenu-title">Cluster Analysis</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/factor-analysis" title="Link to page Principal Component Methods" class="cssmenu-title">Principal Component Methods</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+ 
+ 
+<li class="has-sub" >
+<a href="/english/wiki/survminer-r-package-survival-data-analysis-and-visualization" title="Link to page survminer" class="cssmenu-title"><img src="/english/wiki/wiki_mini.png" alt="survminer" height="16" width="16" /> survminer</a>
+ 
+<ul class="level-1"> 
+<li>
+<a href="/english/wiki/survminer-r-package-survival-data-analysis-and-visualization" title="Link to page Overview" class="cssmenu-title">Overview</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/survminer-cheatsheet-to-create-easily-survival-plots" title="Link to page Cheatsheet" class="cssmenu-title">Cheatsheet</a>
+</li>
+ 
+<li>
+<a href="/english/rpkgs/survminer" title="Link to page Official Doc" class="cssmenu-title">Official Doc</a>
+</li>
+ 
+ 
+<li class="has-sub" >
+<span class="cssmenu-title">Related Tutorials</span>
+ 
+<ul class="level-2"> 
+<li>
+<a href="/english/wiki/survival-analysis" title="Link to page Survival Analysis" class="cssmenu-title">Survival Analysis</a>
+</li>
+</ul>
+</li>
+ 
+ 
+<li class="has-sub" >
+<span class="cssmenu-title">Release Posts</span>
+ 
+<ul class="level-2"> 
+<li>
+<a href="/english/wiki/survminer-0-3-0" title="Link to page v0.3.0" class="cssmenu-title">v0.3.0</a>
+</li>
+ 
+<li>
+<a href="/english/wiki/survminer-0-2-4" title="Link to page v0.2.4" class="cssmenu-title">v0.2.4</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+ 
+ 
+<li class="has-sub" >
+<a href="/english/articles/24-ggpubr-publication-ready-plots/" title="Link to page ggpubr" class="cssmenu-title"><img src="/english/wiki/wiki_mini.png" alt="ggpubr" height="16" width="16" /> ggpubr</a>
+ 
+<ul class="level-1"> 
+<li>
+<a href="/english/articles/24-ggpubr-publication-ready-plots/" title="Link to page Overview" class="cssmenu-title">Overview</a>
+</li>
+ 
+<li>
+<a href="/english/rpkgs/ggpubr/" title="Link to page Official Doc" class="cssmenu-title">Official Doc</a>
+</li>
+</ul>
+</li>
+ 
+ 
+<li class="has-sub" >
+<a href="/english/wiki/ggcorrplot-visualization-of-a-correlation-matrix-using-ggplot2" title="Link to page ggcorrplot" class="cssmenu-title"><img src="/english/wiki/wiki_mini.png" alt="ggcorrplot" height="16" width="16" /> ggcorrplot</a>
+ 
+<ul class="level-1"> 
+<li>
+<a href="/english/wiki/ggcorrplot-visualization-of-a-correlation-matrix-using-ggplot2" title="Link to page Overview" class="cssmenu-title">Overview</a>
+</li>
+</ul>
+</li>
+ 
+ 
+<li class="has-sub" >
+<a href="/english/wiki/fastqcr-an-r-package-facilitating-quality-controls-of-sequencing-data-for-large-numbers-of-samples" title="Link to page fastqcr" class="cssmenu-title"><img src="/english/wiki/wiki_mini.png" alt="fastqcr" height="16" width="16" /> fastqcr</a>
+ 
+<ul class="level-1"> 
+<li>
+<a href="/english/wiki/fastqcr-an-r-package-facilitating-quality-controls-of-sequencing-data-for-large-numbers-of-samples" title="Link to page Overview" class="cssmenu-title">Overview</a>
+</li>
+ 
+<li>
+<a href="/english/rpkgs/fastqcr/" title="Link to page Official Doc" class="cssmenu-title">Official Doc</a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+ 
+</div>
+<div class="module-mini-bottom"></div>
+</div>
+<div class="module-mini-container">
+<div class="module-mini-top">
+</div>
+<div class="module-mini-contents">
+ <div>
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-5474463749888038"
+       data-ad-slot="8944608168"
+       data-ad-format="vertical"></ins>
+  
+</div>
+</div>
+<div class="module-mini-bottom">
+</div>
+</div>
+<div class="module-mini-container">
+<div class="module-mini-top">
+<div class="sub-title">Our Books</div>
+</div>
+<div class="module-mini-contents">
+   
+<div class = "small-block content-privileged-friends" style = "width:98%;">
+          <center>
+            <a href = "http://www.sthda.com/english/web/5-bookadvisor/52-r-graphics-essentials-for-great-data-visualization-200-practical-examples-you-want-to-know-for-data-science/" >
+              <img src = "http://www.sthda.com/english/upload/r-graphics-essentials-cookbook-200.png" /><br/>
+  R Graphics Essentials for Great Data Visualization: 200 Practical Examples You Want to Know for Data Science
+  </a>
+  <p class = "star-new"><i class="fa fa-star"></i> NEW!!</p>
+  </center>
+</div>
+<br/>
+<div class = "small-block" style = "width:98%">
+          <center>
+            <a href = "http://www.sthda.com/english/web/5-bookadvisor/17-practical-guide-to-cluster-analysis-in-r/" >
+              <img src = "http://www.sthda.com/english/upload/practical-guide-to-cluster-analysis-in-r.jpg" /><br/>
+          Practical Guide to Cluster Analysis in R
+      </a>
+      </center>
+</div>
+ 
+<br/>
+<div class = "small-block" style = "width:98%;">
+          <center>
+            <a href = "http://www.sthda.com/english/web/5-bookadvisor/50-practical-guide-to-principal-component-methods-in-r/" >
+              <img src = "http://www.sthda.com/english/sthda-upload/images/principal-component-methods-cover-200px.png" width = "100px", height="125px;" /><br/>
+  Practical Guide to Principal Component Methods in R
+  </a>
+  </center>
+</div>
+<br/>
+<br/><br/>
+<div style = "">
+    <a href="/english/download/3-ebooks/6-complete-guide-to-3d-plots-in-r/" target ="_blank">
+        <b>3D Plots in R</b> <br/><br/>
+        <img src="http://www.sthda.com/sthda/RDoc/images/3d-graphic-cover.png"  style = "width:180px"/>
+    </a>
+</div>
+</div>
+<div class="module-mini-bottom">
+</div>
+</div>
+ 
+ 
+ 
+<div class="module-mini-container">
+<div class="module-mini-top menu-vertical-0 hidden-small-screens">
+Blogroll
+</div>
+<div class="module-mini-contents">
+<nav id="cssmenu-1849" class="cssmenu cssmenu-vertical cssmenu-left">
+<ul class="level-0"> 
+<li>
+<a href="https://www.datanovia.com/en/" title="Link to page Datanovia: Online Data Science Courses" class="cssmenu-title"><img src="/english/web/web_mini.png" alt="Datanovia: Online Data Science Courses" height="16" width="16" /> Datanovia: Online Data Science Courses</a>
+</li>
+ 
+<li>
+<a href="https://www.r-bloggers.com/" title="Link to page R-Bloggers" class="cssmenu-title"><img src="/english/web/web_mini.png" alt="R-Bloggers" height="16" width="16" /> R-Bloggers</a>
+</li>
+</ul>
+</nav>
+ 
+</div>
+<div class="module-mini-bottom"></div>
+</div>
+</aside>
+<div id="main" class="main-with-left" role="main">
+<div id="main-content" itemprop="mainContentOfPage">
+<nav id="breadcrumb" itemprop="breadcrumb">
+<ol>
+<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+<a href="/english/" itemprop="url">
+<span itemprop="title">Home</span>
+</a>
+</li>
+<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+<a href="/english/articles/" itemprop="url">
+<span itemprop="title">Articles</span>
+</a>
+</li>
+<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb" >
+<a href="/english/articles/31-principal-component-methods-in-r-practical-guide/" itemprop="url">
+<span itemprop="title">Principal Component Methods in R: Practical Guide</span>
+</a>
+</li>
+<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"  class="current" >
+<a href="/english/articles/31-principal-component-methods-in-r-practical-guide/112-pca-principal-component-analysis-essentials/" itemprop="url">
+<span itemprop="title">PCA - Principal Component Analysis Essentials</span>
+</a>
+</li>
+</ol>
+</nav>
+<section id="module-articles">
+<header>
+<div>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5474463749888038"
+     data-ad-slot="2200070562"
+     data-ad-format="auto"></ins>
+<br/><br/>
+</div>
+<h1>
+<a href="/english/syndication/rss/articles/31" title="Syndication"><i class="fa fa-syndication"></i></a>
+Articles - Principal Component Methods in R: Practical Guide 
+</h1>
+</header>
+<div class="content">
+<article itemscope="itemscope" itemtype="http://schema.org/Article" id="article-articles-112" class="article-articles">
+<header>
+<h2>
+<span itemprop="name">PCA - Principal Component Analysis Essentials</span>
+<span class="actions">
+</span>
+</h2>
+<div class="more">
+<i class="fa fa-user" title="Author"></i>
+<a itemprop="author" href="/english/user/profile/1" class="admin" >&nbsp;kassambara&nbsp;</a>|&nbsp;
+<i class="fa fa-calendar" title="Date"></i>&nbsp;<time datetime="2017-09-23T23:05:00+02:00" itemprop="datePublished">23/09/2017</time>&nbsp;|
+&nbsp;<i class="fa fa-eye" title="312315 Views"></i>&nbsp;<span title="312315 Views">312315</span>
+&nbsp;|&nbsp;<i class="fa fa-comment" title="Comments"></i><a itemprop="discussionUrl" class="small" href="/english/articles/31-principal-component-methods-in-r-practical-guide/112-pca-principal-component-analysis-essentials/#comments-list">&nbsp;Comments (37)</a>
+&nbsp;|&nbsp;<i class="fa fa-folder" title="Category"></i>&nbsp;<a itemprop="about" class="small" href="/english/articles/31-principal-component-methods-in-r-practical-guide/">Principal Component Methods in R: Practical Guide</a>
+&nbsp;|&nbsp;<i title="Keywords" class="fa fa-tags"></i> 
+<a itemprop="keywords" href="/english/articles/tag/multivariate-analysis/">Multivariate Analysis</a>
+</div>
+<meta itemprop="url" content="/english/articles/31-principal-component-methods-in-r-practical-guide/112-pca-principal-component-analysis-essentials/">
+<meta itemprop="description" content="
+  
+  
+Principal component analysis (PCA) allows us to summarize and to visualize the information in a data set containing individuals/observations described by multiple inter-correlated quantitative">
+<meta itemprop="datePublished" content="2017-09-23T23:05:00+02:00">
+<meta itemprop="discussionUrl" content="/english/articles/31-principal-component-methods-in-r-practical-guide/112-pca-principal-component-analysis-essentials/#comments-list">
+<meta itemprop="thumbnailUrl" content="/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-prcomp-correlation-circle-colors-cos2-1.png">
+<meta itemprop="interactionCount" content="37 UserComments">
+</header>
+<div class="content">
+<div itemprop="text">
+  <!--STHDA_START-->
+  <div id="rdoc">
+<p><strong>Principal component analysis</strong> (<strong>PCA</strong>) allows us to summarize and to visualize the information in a data set containing individuals/observations described by multiple inter-correlated quantitative variables. Each variable could be considered as a different dimension. If you have more than 3 variables in your data sets, it could be very difficult to visualize a multi-dimensional hyperspace.</p>
+<p>Principal component analysis is used to extract the important information from a multivariate data table and to express this information as a set of few new variables called <strong>principal components</strong>. These new variables correspond to a linear combination of the originals. The number of principal components is less than or equal to the number of original variables.</p>
+<p>The information in a given data set corresponds to the <code>total variation</code> it contains. The goal of PCA is to identify directions (or principal components) along which the variation in the data is maximal.</p>
+<p>In other words, PCA reduces the dimensionality of a multivariate data to two or three principal components, that can be visualized graphically, with minimal loss of information.</p>
+<div class="block">
+<p>
+In this chapter, we describe the basic idea of PCA and, demonstrate how to compute and visualize PCA using R software. Additionally, we’ll show how to reveal the most important variables that explain the variations in a data set.
+</p>
+</div>
+<br/>
+<p>Contents:</p><br/>
+<div id="TOC">
+<ul>
+<li><a href="#basics">Basics</a></li>
+<li><a href="#computation">Computation</a><ul>
+<li><a href="#r-packages">R packages</a></li>
+<li><a href="#pca-data-format">Data format</a></li>
+<li><a href="#data-standardization">Data standardization</a></li>
+<li><a href="#r-code">R code</a></li>
+</ul></li>
+<li><a href="#visualization-and-interpretation">Visualization and Interpretation</a><ul>
+<li><a href="#eigenvalues-variances">Eigenvalues / Variances</a></li>
+<li><a href="#graph-of-variables">Graph of variables</a></li>
+<li><a href="#dimension-description">Dimension description</a></li>
+<li><a href="#graph-of-individuals">Graph of individuals</a></li>
+<li><a href="#graph-customization">Graph customization</a></li>
+<li><a href="#biplot">Biplot</a></li>
+</ul></li>
+<li><a href="#supplementary-elements">Supplementary elements</a><ul>
+<li><a href="#definition-and-types">Definition and types</a></li>
+<li><a href="#specification-in-pca">Specification in PCA</a></li>
+<li><a href="#quantitative-variables">Quantitative variables</a></li>
+<li><a href="#individuals">Individuals</a></li>
+<li><a href="#qualitative-variables">Qualitative variables</a></li>
+</ul></li>
+<li><a href="#filtering-results">Filtering results</a></li>
+<li><a href="#exporting-pca-results">Exporting results</a><ul>
+<li><a href="#export-plots-to-pdfpng-files">Export plots to PDF/PNG files</a></li>
+<li><a href="#export-results-to-txtcsv-files">Export results to txt/csv files</a></li>
+</ul></li>
+<li><a href="#summary">Summary</a></li>
+<li><a href="#further-reading">Further reading</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+</div>
+<br/>
+<p>The Book:</p>
+<div class = "small-block content-privileged-friends pca-book">
+    <center>
+        <a href = "http://www.sthda.com/english/web/5-bookadvisor/50-practical-guide-to-principal-component-methods-in-r/">
+          <img src = "http://www.sthda.com/english/sthda-upload/images/principal-component-methods/principal-component-methods-cover-200px.png" /><br/>
+      Practical Guide to Principal Component Methods in R
+      </a>
+      </center>
+</div>
+<div class="spacer"></div>
+<div id="basics" class="section level2">
+<h2>Basics</h2>
+<p>Understanding the details of PCA requires knowledge of linear algebra. Here, we’ll explain only the basics with simple graphical representation of the data.</p>
+<p>In the Plot 1A below, the data are represented in the X-Y coordinate system. The dimension reduction is achieved by identifying the principal directions, called principal components, in which the data varies.</p>
+<p>PCA assumes that the directions with the largest variances are the most “important” (i.e, the most principal).</p>
+<p>In the figure below, the <code>PC1 axis</code> is the <code>first principal direction</code> along which the samples show the largest variation. The <code>PC2 axis</code> is the <code>second most important direction</code> and it is <code>orthogonal</code> to the PC1 axis.</p>
+<p>The dimensionality of our two-dimensional data can be reduced to a single dimension by projecting each sample onto the first principal component (Plot 1B)</p>
+<p><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-scatter-plot-data-mining-1.png" width="240" /><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-scatter-plot-data-mining-2.png" width="240" /></p>
+<p>Technically speaking, the amount of variance retained by each principal component is measured by the so-called <strong>eigenvalue</strong>.</p>
+<p>Note that, the PCA method is particularly useful when the variables within the data set are highly correlated. Correlation indicates that there is redundancy in the data. Due to this redundancy, PCA can be used to reduce the original variables into a smaller number of new variables ( = <strong>principal components</strong>) explaining most of the variance in the original variables.</p>
+<p><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-unnamed-chunk-3-1.png" width="240" /><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-unnamed-chunk-3-2.png" width="240" /></p>
+<div class="block">
+<p>
+Taken together, the main purpose of principal component analysis is to:
+</p>
+<ul>
+<li>
+identify hidden pattern in a data set,
+</li>
+<li>
+reduce the dimensionnality of the data by removing the noise and redundancy in the data,
+</li>
+<li>
+identify correlated variables
+</li>
+</ul>
+</div>
+</div>
+<div id="computation" class="section level2">
+<h2>Computation</h2>
+<div id="r-packages" class="section level3">
+<h3>R packages</h3>
+<p>Several functions from different packages are available in the <em>R software</em> for computing PCA:</p>
+<ul>
+<li><em>prcomp</em>() and <em>princomp</em>() [built-in R <em>stats</em> package],</li>
+<li><em>PCA</em>() [<em>FactoMineR</em> package],</li>
+<li><em>dudi.pca</em>() [<em>ade4</em> package],</li>
+<li>and <em>epPCA</em>() [<em>ExPosition</em> package]</li>
+</ul>
+<p>No matter what function you decide to use, you can easily extract and visualize the results of PCA using R functions provided in the <code>factoextra</code> R package.</p>
+<div class="success">
+<p>
+Here, we’ll use the two packages FactoMineR (for the analysis) and factoextra (for ggplot2-based visualization).
+</p>
+</div>
+<p>Install the two packages as follow:</p>
+<pre class="r"><code>install.packages(c("FactoMineR", "factoextra"))</code></pre>
+<p>Load them in R, by typing this:</p>
+<pre class="r"><code>library("FactoMineR")
+library("factoextra")</code></pre>
+</div>
+<div id="pca-data-format" class="section level3">
+<h3>Data format</h3>
+<p>We’ll use the demo data sets <code>decathlon2</code> from the <em>factoextra</em> package:</p>
+<pre class="r"><code>data(decathlon2)
+# head(decathlon2)</code></pre>
+<p>As illustrated in Figure 3.1, the data used here describes athletes’ performance during two sporting events (Desctar and OlympicG). It contains 27 individuals (athletes) described by 13 variables.</p>
+<p><img src="http://www.sthda.com/english/sthda-upload/images/principal-component-methods/pca-decathlon-300dpi.png" alt="Principal component analysis data format" /></p>
+<div class="warning">
+<p>
+Note that, only some of these individuals and variables will be used to perform the principal component analysis. The coordinates of the remaining individuals and variables on the factor map will be predicted after the PCA.
+</p>
+</div>
+<p>In PCA terminology, our data contains :</p>
+<div class="block">
+<ul>
+<li>
+<em>Active individuals</em> (in light blue, rows 1:23) : Individuals that are used during the principal component analysis.
+</li>
+<li>
+<em>Supplementary individuals</em> (in dark blue, rows 24:27) : The coordinates of these individuals will be predicted using the PCA information and parameters obtained with active individuals/variables
+</li>
+<li>
+<em>Active variables</em> (in pink, columns 1:10) : Variables that are used for the principal component analysis.
+</li>
+<li>
+<em>Supplementary variables</em>: As supplementary individuals, the coordinates of these variables will be predicted also. These can be:
+<ul>
+<li>
+<em>Supplementary continuous variables</em> (red): Columns 11 and 12 corresponding respectively to the rank and the points of athletes.
+</li>
+<li>
+<em>Supplementary qualitative variables</em> (green): Column 13 corresponding to the two athlete-tic meetings (2004 Olympic Game or 2004 Decastar). This is a categorical (or factor) variable factor. It can be used to color individuals by groups.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<p>We start by subsetting active individuals and active variables for the principal component analysis:</p>
+<pre class="r"><code>decathlon2.active <- decathlon2[1:23, 1:10]
+head(decathlon2.active[, 1:6], 4)</code></pre>
+<pre><code>##         X100m Long.jump Shot.put High.jump X400m X110m.hurdle
+## SEBRLE   11.0      7.58     14.8      2.07  49.8         14.7
+## CLAY     10.8      7.40     14.3      1.86  49.4         14.1
+## BERNARD  11.0      7.23     14.2      1.92  48.9         15.0
+## YURKOV   11.3      7.09     15.2      2.10  50.4         15.3</code></pre>
+</div>
+<div id="data-standardization" class="section level3">
+<h3>Data standardization</h3>
+<p>In principal component analysis, variables are often scaled (i.e. standardized). This is particularly recommended when variables are measured in different scales (e.g: kilograms, kilometers, centimeters, …); otherwise, the PCA outputs obtained will be severely affected. </p>
+<p>The goal is to make the variables comparable. Generally variables are scaled to have i) standard deviation one and ii) mean zero.</p>
+<p>The standardization of data is an approach widely used in the context of gene expression data analysis before PCA and clustering analysis. We might also want to scale the data when the mean and/or the standard deviation of variables are largely different.</p>
+<p>When scaling variables, the data can be transformed as follow:</p>
+<p><span class="math display">\[
+\frac{x_i - mean(x)}{sd(x)}
+\]</span></p>
+<p>Where <span class="math inline">\(mean(x)\)</span> is the mean of x values, and <span class="math inline">\(sd(x)\)</span> is the standard deviation (SD).</p>
+<p>The R base function `scale() can be used to standardize the data. It takes a numeric matrix as an input and performs the scaling on the columns.</p>
+<div class="warning">
+<p>
+Note that, by default, the function <strong>PCA</strong>() [in <em>FactoMineR</em>], standardizes the data automatically during the PCA; so you don’t need do this transformation before the PCA.
+</p>
+</div>
+</div>
+<div id="r-code" class="section level3">
+<h3>R code</h3>
+<p>The function <em>PCA</em>() [<em>FactoMineR</em> package] can be used. A simplified format is :</p>
+<pre class="r"><code>PCA(X, scale.unit = TRUE, ncp = 5, graph = TRUE)</code></pre>
+<ul>
+<li><code>X</code>: a data frame. Rows are individuals and columns are numeric variables</li>
+<li><code>scale.unit</code>: a logical value. If <em>TRUE</em>, the data are scaled to unit variance before the analysis. This standardization to the same scale avoids some variables to become dominant just because of their large measurement units. It makes variable comparable.</li>
+<li><code>ncp</code>: number of dimensions kept in the final results.</li>
+<li><code>graph</code>: a logical value. If TRUE a graph is displayed.</li>
+</ul>
+<p>The R code below, computes principal component analysis on the active individuals/variables:</p>
+<pre class="r"><code>library("FactoMineR")
+res.pca <- PCA(decathlon2.active, graph = FALSE)</code></pre>
+<p>The output of the function <em>PCA</em>() is a list, including the following components :</p>
+<pre class="r"><code>print(res.pca)</code></pre>
+<pre><code>## **Results for the Principal Component Analysis (PCA)**
+## The analysis was performed on 23 individuals, described by 10 variables
+## *The results are available in the following objects:
+## 
+##    name               description                          
+## 1  "$eig"             "eigenvalues"                        
+## 2  "$var"             "results for the variables"          
+## 3  "$var$coord"       "coord. for the variables"           
+## 4  "$var$cor"         "correlations variables - dimensions"
+## 5  "$var$cos2"        "cos2 for the variables"             
+## 6  "$var$contrib"     "contributions of the variables"     
+## 7  "$ind"             "results for the individuals"        
+## 8  "$ind$coord"       "coord. for the individuals"         
+## 9  "$ind$cos2"        "cos2 for the individuals"           
+## 10 "$ind$contrib"     "contributions of the individuals"   
+## 11 "$call"            "summary statistics"                 
+## 12 "$call$centre"     "mean of the variables"              
+## 13 "$call$ecart.type" "standard error of the variables"    
+## 14 "$call$row.w"      "weights for the individuals"        
+## 15 "$call$col.w"      "weights for the variables"</code></pre>
+<div class="success">
+<p>
+The object that is created using the function <em>PCA</em>() contains many information found in many different lists and matrices. These values are described in the next section.
+</p>
+</div>
+</div>
+</div>
+<div id="visualization-and-interpretation" class="section level2">
+<h2>Visualization and Interpretation</h2>
+<p>We’ll use the <em>factoextra</em> R package to help in the interpretation of PCA. No matter what function you decide to use [stats::prcomp(), FactoMiner::PCA(), ade4::dudi.pca(), ExPosition::epPCA()], you can easily extract and visualize the results of PCA using R functions provided in the <em>factoextra</em> R package.</p>
+<p>These functions include:</p>
+<ul>
+<li><code>get_eigenvalue(res.pca)</code>: Extract the eigenvalues/variances of principal components</li>
+<li><code>fviz_eig(res.pca)</code>: Visualize the eigenvalues</li>
+<li><code>get_pca_ind(res.pca)</code>, <code>get_pca_var(res.pca)</code>: Extract the results for individuals and variables, respectively.</li>
+<li><code>fviz_pca_ind(res.pca)</code>, <code>fviz_pca_var(res.pca)</code>: Visualize the results individuals and variables, respectively.</li>
+<li><code>fviz_pca_biplot(res.pca)</code>: Make a biplot of individuals and variables.</li>
+</ul>
+<p>In the next sections, we’ll illustrate each of these functions.</p>
+<div id="eigenvalues-variances" class="section level3">
+<h3>Eigenvalues / Variances</h3>
+<p>As described in previous sections, the <em>eigenvalues</em> measure the amount of variation retained by each principal component. <em>Eigenvalues</em> are large for the first PCs and small for the subsequent PCs. That is, the first PCs corresponds to the directions with the maximum amount of variation in the data set. </p>
+<p>We examine the eigenvalues to determine the number of principal components to be considered. The eigenvalues and the proportion of variances (i.e., information) retained by the principal components (PCs) can be extracted using the function <em>get_eigenvalue</em>() [<em>factoextra</em> package].</p>
+<pre class="r"><code>library("factoextra")
+eig.val <- get_eigenvalue(res.pca)
+eig.val</code></pre>
+<pre><code>##        eigenvalue variance.percent cumulative.variance.percent
+## Dim.1       4.124            41.24                        41.2
+## Dim.2       1.839            18.39                        59.6
+## Dim.3       1.239            12.39                        72.0
+## Dim.4       0.819             8.19                        80.2
+## Dim.5       0.702             7.02                        87.2
+## Dim.6       0.423             4.23                        91.5
+## Dim.7       0.303             3.03                        94.5
+## Dim.8       0.274             2.74                        97.2
+## Dim.9       0.155             1.55                        98.8
+## Dim.10      0.122             1.22                       100.0</code></pre>
+<p>The sum of all the eigenvalues give a total variance of 10.</p>
+<p>The proportion of variation explained by each eigenvalue is given in the second column. For example, 4.124 divided by 10 equals 0.4124, or, about 41.24% of the variation is explained by this first eigenvalue. The cumulative percentage explained is obtained by adding the successive proportions of variation explained to obtain the running total. For instance, 41.242% plus 18.385% equals 59.627%, and so forth. Therefore, about 59.627% of the variation is explained by the first two eigenvalues together.</p>
+<p>Eigenvalues can be used to determine the number of principal components to retain after PCA <span class="citation">(Kaiser 1961)</span>: </p>
+<div class="block">
+<ul>
+<li>
+<p>
+An <em>eigenvalue</em> > 1 indicates that PCs account for more variance than accounted by one of the original variables in standardized data. This is commonly used as a cutoff point for which PCs are retained. This holds true only when the data are standardized.
+</p>
+</li>
+<li>
+<p>
+You can also limit the number of component to that number that accounts for a certain fraction of the total variance. For example, if you are satisfied with 70% of the total variance explained then use the number of components to achieve that.
+</p>
+</li>
+</ul>
+</div>
+<p>Unfortunately, there is no well-accepted objective way to decide how many principal components are enough. This will depend on the specific field of application and the specific data set. In practice, we tend to look at the first few principal components in order to find interesting patterns in the data.</p>
+<p>In our analysis, the first three principal components explain 72% of the variation. This is an acceptably large percentage.</p>
+<p>An alternative method to determine the number of principal components is to look at a Scree Plot, which is the plot of eigenvalues ordered from largest to the smallest. The number of component is determined at the point, beyond which the remaining eigenvalues are all relatively small and of comparable size <span class="citation">(Jollife 2002, <span class="citation">Peres-Neto, Jackson, and Somers (2005)</span>)</span>.</p>
+<p>The scree plot can be produced using the function <code>fviz_eig()</code> or <code>fviz_screeplot()</code> [<em>factoextra</em> package]. </p>
+<pre class="r"><code>fviz_eig(res.pca, addlabels = TRUE, ylim = c(0, 50))</code></pre>
+<p><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-eigenvalue-screeplot-1.png" width="480" /></p>
+<div class="success">
+<p>
+From the plot above, we might want to stop at the fifth principal component. 87% of the information (variances) contained in the data are retained by the first five principal components.
+</p>
+</div>
+</div>
+<div id="graph-of-variables" class="section level3">
+<h3>Graph of variables</h3>
+<div id="results" class="section level4">
+<h4>Results</h4>
+<p>A simple method to extract the results, for variables, from a PCA output is to use the function <code>get_pca_var()</code> [<em>factoextra</em> package]. This function provides a list of matrices containing all the results for the active variables (coordinates, correlation between variables and axes, squared cosine and contributions)</p>
+<pre class="r"><code>var <- get_pca_var(res.pca)
+var</code></pre>
+<pre><code>## Principal Component Analysis Results for variables
+##  ===================================================
+##   Name       Description                                    
+## 1 "$coord"   "Coordinates for the variables"                
+## 2 "$cor"     "Correlations between variables and dimensions"
+## 3 "$cos2"    "Cos2 for the variables"                       
+## 4 "$contrib" "contributions of the variables"</code></pre>
+<p>The components of the <code>get_pca_var()</code> can be used in the plot of variables as follow:</p>
+<ul>
+<li><code>var$coord</code>: coordinates of variables to create a scatter plot</li>
+<li><code>var$cos2</code>: represents the quality of representation for variables on the factor map. It’s calculated as the squared coordinates: var.cos2 = var.coord * var.coord.</li>
+<li><code>var$contrib</code>: contains the contributions (in percentage) of the variables to the principal components. The contribution of a variable (var) to a given principal component is (in percentage) : (var.cos2 * 100) / (total cos2 of the component).</li>
+</ul>
+<div class="success">
+<p>
+Note that, it’s possible to plot variables and to color them according to either i) their quality on the factor map (cos2) or ii) their contribution values to the principal components (contrib).
+</p>
+</div>
+<p>The different components can be accessed as follow:</p>
+<pre class="r"><code># Coordinates
+head(var$coord)
+# Cos2: quality on the factore map
+head(var$cos2)
+# Contributions to the principal components
+head(var$contrib)</code></pre>
+<p>In this section, we describe how to visualize variables and draw conclusions about their correlations. Next, we highlight variables according to either i) their quality of representation on the factor map or ii) their contributions to the principal components.</p>
+</div>
+<div id="correlation-circle" class="section level4">
+<h4>Correlation circle</h4>
+<p>The correlation between a variable and a principal component (PC) is used as the coordinates of the variable on the PC. The representation of variables differs from the plot of the observations: The observations are represented by their projections, but the variables are represented by their correlations <span class="citation">(Abdi and Williams 2010)</span>. </p>
+<pre class="r"><code># Coordinates of variables
+head(var$coord, 4)</code></pre>
+<pre><code>##            Dim.1   Dim.2  Dim.3   Dim.4  Dim.5
+## X100m     -0.851 -0.1794  0.302  0.0336 -0.194
+## Long.jump  0.794  0.2809 -0.191 -0.1154  0.233
+## Shot.put   0.734  0.0854  0.518  0.1285 -0.249
+## High.jump  0.610 -0.4652  0.330  0.1446  0.403</code></pre>
+<p>To plot variables, type this:</p>
+<pre class="r"><code>fviz_pca_var(res.pca, col.var = "black")</code></pre>
+<p><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-variables-correlation-circle-1.png" width="432" /></p>
+<p>The plot above is also known as variable correlation plots. It shows the relationships between all variables. It can be interpreted as follow:</p>
+<ul>
+<li>Positively correlated variables are grouped together.</li>
+<li>Negatively correlated variables are positioned on opposite sides of the plot origin (opposed quadrants).
+</li>
+<li>The distance between variables and the origin measures the quality of the variables on the factor map. Variables that are away from the origin are well represented on the factor map.</li>
+</ul>
+</div>
+<div id="quality-of-representation" class="section level4">
+<h4>Quality of representation</h4>
+<p>The quality of representation of the variables on factor map is called <strong>cos2</strong> (square cosine, squared coordinates) . You can access to the cos2 as follow:</p>
+<pre class="r"><code>head(var$cos2, 4)</code></pre>
+<pre><code>##           Dim.1   Dim.2  Dim.3   Dim.4  Dim.5
+## X100m     0.724 0.03218 0.0909 0.00113 0.0378
+## Long.jump 0.631 0.07888 0.0363 0.01331 0.0544
+## Shot.put  0.539 0.00729 0.2679 0.01650 0.0619
+## High.jump 0.372 0.21642 0.1090 0.02089 0.1622</code></pre>
+<p>You can visualize the cos2 of variables on all the dimensions using the corrplot package:</p>
+<pre class="r"><code>library("corrplot")
+corrplot(var$cos2, is.corr=FALSE)</code></pre>
+<p><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-pca-variable-cos2-corrplot-1.png" width="432" /></p>
+<p>It’s also possible to create a bar plot of variables cos2 using the function <code>fviz_cos2()</code>[in factoextra]:</p>
+<pre class="r"><code># Total cos2 of variables on Dim.1 and Dim.2
+fviz_cos2(res.pca, choice = "var", axes = 1:2)</code></pre>
+<p><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-pca-variable-cos2-fviz_cos2-1.png" width="432" /></p>
+<div class="block">
+<p>
+Note that,
+</p>
+<ul>
+<li>
+<p>
+A high cos2 indicates a good representation of the variable on the principal component. In this case the variable is positioned close to the circumference of the correlation circle.
+</p>
+</li>
+<li>
+<p>
+A low cos2 indicates that the variable is not perfectly represented by the PCs. In this case the variable is close to the center of the circle.
+</p>
+</li>
+</ul>
+</div>
+<p>For a given variable, the sum of the cos2 on all the principal components is equal to one.</p>
+<p>If a variable is perfectly represented by only two principal components (Dim.1 & Dim.2), the sum of the cos2 on these two PCs is equal to one. In this case the variables will be positioned on the circle of correlations.</p>
+<p>For some of the variables, more than 2 components might be required to perfectly represent the data. In this case the variables are positioned inside the circle of correlations.</p>
+<p>In summary:</p>
+<div class="block">
+<ul>
+<li>
+The cos2 values are used to estimate the quality of the representation
+</li>
+<li>
+The closer a variable is to the circle of correlations, the better its representation on the factor map (and the more important it is to interpret these components)
+</li>
+<li>
+Variables that are closed to the center of the plot are less important for the first components.
+</li>
+</ul>
+</div>
+<p>It’s possible to color variables by their cos2 values using the argument <code>col.var = "cos2"</code>. This produces a gradient colors. In this case, the argument <code>gradient.cols</code> can be used to provide a custom color. For instance, <code>gradient.cols = c("white", "blue", "red")</code> means that:</p>
+<ul>
+<li>variables with low cos2 values will be colored in “white”</li>
+<li>variables with mid cos2 values will be colored in “blue”</li>
+<li>variables with high cos2 values will be colored in red</li>
+</ul>
+<pre class="r"><code># Color by cos2 values: quality on the factor map
+fviz_pca_var(res.pca, col.var = "cos2",
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
+             repel = TRUE # Avoid text overlapping
+             )</code></pre>
+<p><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-prcomp-correlation-circle-colors-cos2-1.png" width="528" /></p>
+<p>Note that, it’s also possible to change the transparency of the variables according to their cos2 values using the option <code>alpha.var = "cos2"</code>. For example, type this:</p>
+<pre class="r"><code># Change the transparency by cos2 values
+fviz_pca_var(res.pca, alpha.var = "cos2")</code></pre>
+</div>
+<div id="pca-variable-contributions" class="section level4">
+<h4>Contributions of variables to PCs</h4>
+<p>The contributions of variables in accounting for the variability in a given principal component are expressed in percentage. </p>
+<ul>
+<li>Variables that are correlated with PC1 (i.e., Dim.1) and PC2 (i.e., Dim.2) are the most important in explaining the variability in the data set.
+</li>
+<li>Variables that do not correlated with any PC or correlated with the last dimensions are variables with low contribution and might be removed to simplify the overall analysis.</li>
+</ul>
+<p>The contribution of variables can be extracted as follow :</p>
+<pre class="r"><code>head(var$contrib, 4)</code></pre>
+<pre><code>##           Dim.1  Dim.2 Dim.3 Dim.4 Dim.5
+## X100m     17.54  1.751  7.34 0.138  5.39
+## Long.jump 15.29  4.290  2.93 1.625  7.75
+## Shot.put  13.06  0.397 21.62 2.014  8.82
+## High.jump  9.02 11.772  8.79 2.550 23.12</code></pre>
+<div class="success">
+<p>
+The larger the value of the contribution, the more the variable contributes to the component.
+</p>
+</div>
+<p>It’s possible to use the function <code>corrplot()</code> [corrplot package] to highlight the most contributing variables for each dimension:</p>
+<pre class="r"><code>library("corrplot")
+corrplot(var$contrib, is.corr=FALSE)    </code></pre>
+<p><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-variable-contribution-corrplot-1.png" width="432" /></p>
+<p>The function <code>fviz_contrib()</code> [factoextra package] can be used to draw a bar plot of variable contributions. If your data contains many variables, you can decide to show only the top contributing variables. The R code below shows the top 10 variables contributing to the principal components:</p>
+<pre class="r"><code># Contributions of variables to PC1
+fviz_contrib(res.pca, choice = "var", axes = 1, top = 10)
+# Contributions of variables to PC2
+fviz_contrib(res.pca, choice = "var", axes = 2, top = 10)</code></pre>
+<p><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-variable-contribution-bar-plot-1.png" width="316.8" /><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-variable-contribution-bar-plot-2.png" width="316.8" /></p>
+<p>The total contribution to PC1 and PC2 is obtained with the following R code:</p>
+<pre class="r"><code>fviz_contrib(res.pca, choice = "var", axes = 1:2, top = 10)</code></pre>
+<p>The red dashed line on the graph above indicates the expected average contribution. If the contribution of the variables were uniform, the expected value would be 1/length(variables) = 1/10 = 10%. For a given component, a variable with a contribution larger than this cutoff could be considered as important in contributing to the component.</p>
+<p>Note that, the total contribution of a given variable, on explaining the variations retained by two principal components, say PC1 and PC2, is calculated as contrib = [(C1 * Eig1) + (C2 * Eig2)]/(Eig1 + Eig2), where</p>
+<ul>
+<li>C1 and C2 are the contributions of the variable on PC1 and PC2, respectively</li>
+<li>Eig1 and Eig2 are the eigenvalues of PC1 and PC2, respectively. Recall that eigenvalues measure the amount of variation retained by each PC.</li>
+</ul>
+<p>In this case, the expected average contribution (cutoff) is calculated as follow: As mentioned above, if the contributions of the 10 variables were uniform, the expected average contribution on a given PC would be 1/10 = 10%. The expected average contribution of a variable for PC1 and PC2 is : [(10* Eig1) + (10 * Eig2)]/(Eig1 + Eig2)</p>
+<div class="success">
+<p>
+It can be seen that the variables - X100m, Long.jump and Pole.vault - contribute the most to the dimensions 1 and 2.
+</p>
+</div>
+<p>The most important (or, contributing) variables can be highlighted on the correlation plot as follow:</p>
+<pre class="r"><code>fviz_pca_var(res.pca, col.var = "contrib",
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07")
+             )</code></pre>
+<p><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-variable-contribution-1.png" width="528" /></p>
+<p>Note that, it’s also possible to change the transparency of variables according to their contrib values using the option <code>alpha.var = "contrib"</code>. For example, type this:</p>
+<pre class="r"><code># Change the transparency by contrib values
+fviz_pca_var(res.pca, alpha.var = "contrib")</code></pre>
+</div>
+<div id="color-by-a-custom-continuous-variable" class="section level4">
+<h4>Color by a custom continuous variable</h4>
+<p>In the previous sections, we showed how to color variables by their contributions and their cos2. Note that, it’s possible to color variables by any custom continuous variable. The coloring variable should have the same length as the number of active variables in the PCA (here n = 10).</p>
+<p>For example, type this:</p>
+<pre class="r"><code># Create a random continuous variable of length 10
+set.seed(123)
+my.cont.var <- rnorm(10)
+# Color variables by the continuous variable
+fviz_pca_var(res.pca, col.var = my.cont.var,
+             gradient.cols = c("blue", "yellow", "red"),
+             legend.title = "Cont.Var")</code></pre>
+<p><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-pca-color-variables-by-a-custom-continuous-variable-1.png" width="528" /></p>
+</div>
+<div id="color-by-groups" class="section level4">
+<h4>Color by groups</h4>
+<p>It’s also possible to change the color of variables by groups defined by a qualitative/categorical variable, also called <code>factor</code> in R terminology.</p>
+<p>As we don’t have any grouping variable in our data sets for classifying variables, we’ll create it.</p>
+<p>In the following demo example, we start by classifying the variables into 3 groups using the <code>kmeans</code> clustering algorithm. Next, we use the clusters returned by the kmeans algorithm to color variables.</p>
+<div class="notice">
+<p>
+Note that, if you are interested in learning clustering, we previously published a book named “Practical Guide To Cluster Analysis in R” (<a href="https://goo.gl/DmJ5y5" class="uri">https://goo.gl/DmJ5y5</a>).
+</p>
+</div>
+<pre class="r"><code># Create a grouping variable using kmeans
+# Create 3 groups of variables (centers = 3)
+set.seed(123)
+res.km <- kmeans(var$coord, centers = 3, nstart = 25)
+grp <- as.factor(res.km$cluster)
+# Color variables by groups
+fviz_pca_var(res.pca, col.var = grp, 
+             palette = c("#0073C2FF", "#EFC000FF", "#868686FF"),
+             legend.title = "Cluster")</code></pre>
+<p><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-pca-color-variables-by-groups-1.png" width="528" /></p>
+<div class="notice">
+<p>
+Note that, to change the color of groups the argument palette should be used. To change gradient colors, the argument gradient.cols should be used.
+</p>
+</div>
+</div>
+</div>
+<div id="dimension-description" class="section level3">
+<h3>Dimension description</h3>
+<p>In the section @ref(pca-variable-contributions), we described how to highlight variables according to their contributions to the principal components.</p>
+<p>Note also that, the function <code>dimdesc()</code> [in FactoMineR], for dimension description, can be used to identify the most significantly associated variables with a given principal component . It can be used as follow:</p>
+<pre class="r"><code>res.desc <- dimdesc(res.pca, axes = c(1,2), proba = 0.05)
+# Description of dimension 1
+res.desc$Dim.1</code></pre>
+<pre><code>## $quanti
+##              correlation  p.value
+## Long.jump          0.794 6.06e-06
+## Discus             0.743 4.84e-05
+## Shot.put           0.734 6.72e-05
+## High.jump          0.610 1.99e-03
+## Javeline           0.428 4.15e-02
+## X400m             -0.702 1.91e-04
+## X110m.hurdle      -0.764 2.20e-05
+## X100m             -0.851 2.73e-07</code></pre>
+<pre class="r"><code># Description of dimension 2
+res.desc$Dim.2</code></pre>
+<pre><code>## $quanti
+##            correlation  p.value
+## Pole.vault       0.807 3.21e-06
+## X1500m           0.784 9.38e-06
+## High.jump       -0.465 2.53e-02</code></pre>
+<p>In the output above, <em>$quanti</em> means results for quantitative variables. Note that, variables are sorted by the p-value of the correlation.</p>
+</div>
+<div id="graph-of-individuals" class="section level3">
+<h3>Graph of individuals</h3>
+<div id="results-1" class="section level4">
+<h4>Results</h4>
+<p>The results, for individuals can be extracted using the function <code>get_pca_ind()</code> [<em>factoextra</em> package]. Similarly to the <code>get_pca_var()</code>, the function <code>get_pca_ind()</code> provides a list of matrices containing all the results for the individuals (coordinates, correlation between individuals and axes, squared cosine and contributions)</p>
+<pre class="r"><code>ind <- get_pca_ind(res.pca)
+ind</code></pre>
+<pre><code>## Principal Component Analysis Results for individuals
+##  ===================================================
+##   Name       Description                       
+## 1 "$coord"   "Coordinates for the individuals" 
+## 2 "$cos2"    "Cos2 for the individuals"        
+## 3 "$contrib" "contributions of the individuals"</code></pre>
+<p>To get access to the different components, use this:</p>
+<pre class="r"><code># Coordinates of individuals
+head(ind$coord)
+# Quality of individuals
+head(ind$cos2)
+# Contributions of individuals
+head(ind$contrib)</code></pre>
+</div>
+<div id="plots-quality-and-contribution" class="section level4">
+<h4>Plots: quality and contribution</h4>
+<p>The <code>fviz_pca_ind()</code> is used to produce the graph of individuals. To create a simple plot, type this:</p>
+<pre class="r"><code>fviz_pca_ind(res.pca)</code></pre>
+<p>Like variables, it’s also possible to color individuals by their cos2 values:</p>
+<pre class="r"><code>fviz_pca_ind(res.pca, col.ind = "cos2", 
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE # Avoid text overlapping (slow if many points)
+             )</code></pre>
+<p><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-graph-individuals-cos2-1.png" width="528" /></p>
+<div class="success">
+<p>
+Note that, individuals that are similar are grouped together on the plot.
+</p>
+</div>
+<p>You can also change the point size according the cos2 of the corresponding individuals:</p>
+<pre class="r"><code>fviz_pca_ind(res.pca, pointsize = "cos2", 
+             pointshape = 21, fill = "#E7B800",
+             repel = TRUE # Avoid text overlapping (slow if many points)
+             )</code></pre>
+<p><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-graph-individuals-point-size-by-cos2-1.png" width="528" /></p>
+<p>To change both point size and color by cos2, try this:</p>
+<pre class="r"><code>fviz_pca_ind(res.pca, col.ind = "cos2", pointsize = "cos2",
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE # Avoid text overlapping (slow if many points)
+             )</code></pre>
+<p>To create a bar plot of the quality of representation (cos2) of individuals on the factor map, you can use the function <code>fviz_cos2()</code> as previously described for variables:</p>
+<pre class="r"><code>fviz_cos2(res.pca, choice = "ind")</code></pre>
+<p>To visualize the contribution of individuals to the first two principal components, type this:</p>
+<pre class="r"><code># Total contribution on PC1 and PC2
+fviz_contrib(res.pca, choice = "ind", axes = 1:2)</code></pre>
+<p><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-individuals-contribution-1.png" width="576" /></p>
+</div>
+<div id="color-by-a-custom-continuous-variable-1" class="section level4">
+<h4>Color by a custom continuous variable</h4>
+<p>As for variables, individuals can be colored by any custom continuous variable by specifying the argument <code>col.ind</code>.</p>
+<p>For example, type this:</p>
+<pre class="r"><code># Create a random continuous variable of length 23,
+# Same length as the number of active individuals in the PCA
+set.seed(123)
+my.cont.var <- rnorm(23)
+# Color individuals by the continuous variable
+fviz_pca_ind(res.pca, col.ind = my.cont.var,
+             gradient.cols = c("blue", "yellow", "red"),
+             legend.title = "Cont.Var")</code></pre>
+</div>
+<div id="color-ind-by-groups" class="section level4">
+<h4>Color by groups</h4>
+<p>Here, we describe how to color individuals by group. Additionally, we show how to add <em>concentration ellipses</em> and <em>confidence ellipses</em> by groups. For this, we’ll use the iris data as demo data sets.</p>
+<p>Iris data sets look like this:</p>
+<pre class="r"><code>head(iris, 3)</code></pre>
+<pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa</code></pre>
+<p>The column “Species” will be used as grouping variable. We start by computing principal component analysis as follow:</p>
+<pre class="r"><code># The variable Species (index = 5) is removed
+# before PCA analysis
+iris.pca <- PCA(iris[,-5], graph = FALSE)</code></pre>
+<p>In the R code below: the argument <code>habillage</code> or <code>col.ind</code> can be used to specify the factor variable for coloring the individuals by groups.</p>
+<p>To add a concentration ellipse around each group, specify the argument <code>addEllipses = TRUE</code>. The argument <code>palette</code> can be used to change group colors.</p>
+<pre class="r"><code>fviz_pca_ind(iris.pca,
+             geom.ind = "point", # show points only (nbut not "text")
+             col.ind = iris$Species, # color by groups
+             palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+             addEllipses = TRUE, # Concentration ellipses
+             legend.title = "Groups"
+             )</code></pre>
+<p><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-individuals-factor-map-color-by-groups-1.png" width="528" /></p>
+<div class="warning">
+<p>
+To remove the group mean point, specify the argument <em>mean.point = FALSE</em>.
+</p>
+<p>
+If you want confidence ellipses instead of concentration ellipses, use <em>ellipse.type = “confidence”</em>.
+</p>
+</div>
+<pre class="r"><code># Add confidence ellipses
+fviz_pca_ind(iris.pca, geom.ind = "point", col.ind = iris$Species, 
+             palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+             addEllipses = TRUE, ellipse.type = "confidence",
+             legend.title = "Groups"
+             )</code></pre>
+<p>Note that, allowed values for palette include:</p>
+<ul>
+<li>“grey” for grey color palettes;</li>
+<li>brewer palettes e.g. “RdBu”, “Blues”, …; To view all, type this in R: <code>RColorBrewer::display.brewer.all()</code>.</li>
+<li>custom color palette e.g. c(“blue”, “red”);</li>
+<li>and scientific journal palettes from <code>ggsci R package</code>, e.g.: “npg”, “aaas”, “lancet”, “jco”, “ucscgb”, “uchicago”, “simpsons” and “rickandmorty”.</li>
+</ul>
+<p>For example, to use the jco (journal of clinical oncology) color palette, type this:</p>
+<pre class="r"><code>fviz_pca_ind(iris.pca,
+             label = "none", # hide individual labels
+             habillage = iris$Species, # color by groups
+             addEllipses = TRUE, # Concentration ellipses
+             palette = "jco"
+             )</code></pre>
+</div>
+</div>
+<div id="graph-customization" class="section level3">
+<h3>Graph customization</h3>
+<p>Note that, <code>fviz_pca_ind()</code> and <code>fviz_pca_var()</code> and related functions are wrapper around the core function <code>fviz()</code> [in <em>factoextra</em>]. fviz() is a wrapper around the function <code>ggscatter()</code> [in ggpubr]. Therefore, further arguments, to be passed to the function fviz() and ggscatter(), can be specified in fviz_pca_ind() and fviz_pca_var().</p>
+<p>Here, we present some of these additional arguments to customize the PCA graph of variables and individuals.</p>
+<div id="dimensions" class="section level4">
+<h4>Dimensions</h4>
+<p>By default, variables/individuals are represented on dimensions 1 and 2. If you want to visualize them on dimensions 2 and 3, for example, you should specify the argument <code>axes = c(2, 3)</code>.</p>
+<pre class="r"><code># Variables on dimensions 2 and 3
+fviz_pca_var(res.pca, axes = c(2, 3))
+# Individuals on dimensions 2 and 3
+fviz_pca_ind(res.pca, axes = c(2, 3))</code></pre>
+</div>
+<div id="plot-elements-point-text-arrow" class="section level4">
+<h4>Plot elements: point, text, arrow</h4>
+<p>The argument <code>geom</code> (for geometry) and derivatives are used to specify the geometry elements or graphical elements to be used for plotting.</p>
+<ol style="list-style-type: decimal">
+<li><code>geom.var</code>: a text specifying the geometry to be used for plotting variables. Allowed values are the combination of c(“point”, “arrow”, “text”).</li>
+</ol>
+<ul>
+<li>Use <code>geom.var = "point"</code>, to show only points;</li>
+<li>Use <code>geom.var = "text"</code> to show only text labels;</li>
+<li>Use <code>geom.var = c("point", "text")</code> to show both points and text labels</li>
+<li>Use <code>geom.var = c("arrow", "text")</code> to show arrows and labels (default).</li>
+</ul>
+<p>For example, type this:</p>
+<pre class="r"><code># Show variable points and text labels
+fviz_pca_var(res.pca, geom.var = c("point", "text"))</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li><code>geom.ind</code>: a text specifying the geometry to be used for plotting individuals. Allowed values are the combination of c(“point”, “text”).</li>
+</ol>
+<ul>
+<li>Use <code>geom.ind = "point"</code>, to show only points;</li>
+<li>Use <code>geom.ind = "text"</code> to show only text labels;</li>
+<li>Use <code>geom.ind = c("point", "text")</code> to show both point and text labels (default)</li>
+</ul>
+<p>For example, type this:</p>
+<pre class="r"><code># Show individuals text labels only
+fviz_pca_ind(res.pca, geom.ind =  "text")</code></pre>
+</div>
+<div id="size-and-shape-of-plot-elements" class="section level4">
+<h4>Size and shape of plot elements</h4>
+<ol style="list-style-type: decimal">
+<li><code>labelsize</code>: font size for the text labels, e.g.: <code>labelsize = 4</code>.</li>
+<li><code>pointsize</code>: the size of points, e.g.: <code>pointsize = 1.5</code>.</li>
+<li><code>arrowsize</code>: the size of arrows. Controls the thickness of arrows, e.g.: <code>arrowsize = 0.5</code>.</li>
+<li><code>pointshape</code>: the shape of points, <code>pointshape = 21</code>. Type <code>ggpubr::show_point_shapes()</code> to see available point shapes.</li>
+</ol>
+<pre class="r"><code># Change the size of arrows an labels
+fviz_pca_var(res.pca, arrowsize = 1, labelsize = 5, 
+             repel = TRUE)
+# Change points size, shape and fill color
+# Change labelsize
+fviz_pca_ind(res.pca, 
+             pointsize = 3, pointshape = 21, fill = "lightblue",
+             labelsize = 5, repel = TRUE)</code></pre>
+</div>
+<div id="ellipses" class="section level4">
+<h4>Ellipses</h4>
+<p>As we described in the previous section @ref(color-ind-by-groups), when coloring individuals by groups, you can add point concentration ellipses using the argument <code>addEllipses = TRUE</code>.</p>
+<p>Note that, the argument <code>ellipse.type</code> can be used to change the type of ellipses. Possible values are:</p>
+<ul>
+<li><code>"convex"</code>: plot convex hull of a set o points.</li>
+<li><code>"confidence"</code>: plot confidence ellipses around group mean points as the function <code>coord.ellipse()</code> [in FactoMineR].</li>
+<li><code>"t"</code>: assumes a multivariate t-distribution.</li>
+<li><code>"norm"</code>: assumes a multivariate normal distribution.</li>
+<li><code>"euclid"</code>: draws a circle with the radius equal to level, representing the euclidean distance from the center. This ellipse probably won’t appear circular unless <code>coord_fixed()</code> is applied.</li>
+</ul>
+<p>The argument <code>ellipse.level</code> is also available to change the size of the concentration ellipse in normal probability. For example, specify ellipse.level = 0.95 or ellipse.level = 0.66.</p>
+<pre class="r"><code># Add confidence ellipses
+fviz_pca_ind(iris.pca, geom.ind = "point", 
+             col.ind = iris$Species, # color by groups
+             palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+             addEllipses = TRUE, ellipse.type = "confidence",
+             legend.title = "Groups"
+             )
+# Convex hull
+fviz_pca_ind(iris.pca, geom.ind = "point",
+             col.ind = iris$Species, # color by groups
+             palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+             addEllipses = TRUE, ellipse.type = "convex",
+             legend.title = "Groups"
+             )</code></pre>
+</div>
+<div id="group-mean-points" class="section level4">
+<h4>Group mean points</h4>
+<p>When coloring individuals by groups (section @ref(color-ind-by-groups)), the mean points of groups (barycenters) are also displayed by default.</p>
+<p>To remove the mean points, use the argument <code>mean.point = FALSE</code>.</p>
+<pre class="r"><code>fviz_pca_ind(iris.pca,
+             geom.ind = "point", # show points only (but not "text")
+             group.ind = iris$Species, # color by groups
+             legend.title = "Groups",
+             mean.point = FALSE)</code></pre>
+</div>
+<div id="axis-lines" class="section level4">
+<h4>Axis lines</h4>
+<p>The argument <code>axes.linetype</code> can be used to specify the line type of axes. Default is “dashed”. Allowed values include “blank”, “solid”, “dotted”, etc. To see all possible values type <code>ggpubr::show_line_types()</code> in R.</p>
+<p>To remove axis lines, use axes.linetype = “blank”:</p>
+<pre class="r"><code>fviz_pca_var(res.pca, axes.linetype = "blank")</code></pre>
+</div>
+<div id="graphical-parameters" class="section level4">
+<h4>Graphical parameters</h4>
+<p>To change easily the graphical of any ggplots, you can use the function <a href="http://www.sthda.com/english/rpkgs/ggpubr/reference/ggpar.html">ggpar()</a> [ggpubr package]</p>
+<p>The graphical parameters that can be changed using ggpar() include:</p>
+<ul>
+<li>Main titles, axis labels and legend titles</li>
+<li>Legend position. Possible values: “top”, “bottom”, “left”, “right”, “none”.</li>
+<li>Color palette.</li>
+<li>Themes. Allowed values include: theme_gray(), theme_bw(), theme_minimal(), theme_classic(), theme_void().</li>
+</ul>
+<pre class="r"><code>ind.p <- fviz_pca_ind(iris.pca, geom = "point", col.ind = iris$Species)
+ggpubr::ggpar(ind.p,
+              title = "Principal Component Analysis",
+              subtitle = "Iris data set",
+              caption = "Source: factoextra",
+              xlab = "PC1", ylab = "PC2",
+              legend.title = "Species", legend.position = "top",
+              ggtheme = theme_gray(), palette = "jco"
+              )</code></pre>
+<p><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-graphical-parameters-1.png" width="432" /></p>
+</div>
+</div>
+<div id="biplot" class="section level3">
+<h3>Biplot</h3>
+<p>To make a simple biplot of individuals and variables, type this:</p>
+<pre class="r"><code>fviz_pca_biplot(res.pca, repel = TRUE,
+                col.var = "#2E9FDF", # Variables color
+                col.ind = "#696969"  # Individuals color
+                )</code></pre>
+<p><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-prcomp-biplot-factoextra-data-mining-1.png" width="480" /></p>
+<div class="warning">
+<p>
+Note that, the biplot might be only useful when there is a low number of variables and individuals in the data set; otherwise the final plot would be unreadable.
+</p>
+<p>
+Note also that, the coordinate of individuals and variables are not constructed on the same space. Therefore, in the biplot, you should mainly focus on the direction of variables but not on their absolute positions on the plot.
+</p>
+<p>
+Roughly speaking a biplot can be interpreted as follow:
+</p>
+<ul>
+<li>
+an individual that is on the same side of a given variable has a high value for this variable;
+</li>
+<li>
+an individual that is on the opposite side of a given variable has a low value for this variable.
+</li>
+</ul>
+</div>
+<p>Now, using the <code>iris.pca</code> output, let’s :</p>
+<ul>
+<li>make a biplot of individuals and variables</li>
+<li>change the color of individuals by groups: col.ind = iris$Species</li>
+<li>show only the labels for variables: <code>label = "var"</code> or use <code>geom.ind = "point"</code></li>
+</ul>
+<pre class="r"><code>fviz_pca_biplot(iris.pca, 
+                col.ind = iris$Species, palette = "jco", 
+                addEllipses = TRUE, label = "var",
+                col.var = "black", repel = TRUE,
+                legend.title = "Species") </code></pre>
+<p><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-biplot-change-color-groups-1.png" width="528" /></p>
+<p>In the following example, we want to color both individuals and variables by groups. The trick is to use pointshape = 21 for individual points. This particular point shape can be filled by a color using the argument <code>fill.ind</code>. The border line color of individual points is set to “black” using <code>col.ind</code>. To color variable by groups, the argument <code>col.var</code> will be used.</p>
+<p>To customize individuals and variable colors, we use the helper functions <code>fill_palette()</code> and <code>color_palette()</code> [in ggpubr package].</p>
+<pre class="r"><code>fviz_pca_biplot(iris.pca, 
+                # Fill individuals by groups
+                geom.ind = "point",
+                pointshape = 21,
+                pointsize = 2.5,
+                fill.ind = iris$Species,
+                col.ind = "black",
+                # Color variable by groups
+                col.var = factor(c("sepal", "sepal", "petal", "petal")),
+                
+                legend.title = list(fill = "Species", color = "Clusters"),
+                repel = TRUE        # Avoid label overplotting
+             )+
+  ggpubr::fill_palette("jco")+      # Indiviual fill color
+  ggpubr::color_palette("npg")      # Variable colors</code></pre>
+<p><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-color-individuals-and-variables-by-groups-1.png" width="528" /></p>
+<p>Another complex example is to color individuals by groups (discrete color) and variables by their contributions to the principal components (gradient colors). Additionally, we’ll change the transparency of variables by their contributions using the argument <code>alpha.var</code>.</p>
+<pre class="r"><code>fviz_pca_biplot(iris.pca, 
+                # Individuals
+                geom.ind = "point",
+                fill.ind = iris$Species, col.ind = "black",
+                pointshape = 21, pointsize = 2,
+                palette = "jco",
+                addEllipses = TRUE,
+                # Variables
+                alpha.var ="contrib", col.var = "contrib",
+                gradient.cols = "RdYlBu",
+                
+                legend.title = list(fill = "Species", color = "Contrib",
+                                    alpha = "Contrib")
+                )</code></pre>
+<p><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-color-individuals-by-groups-and-variables-by-contributions-1.png" width="528" /></p>
+</div>
+</div>
+<div id="supplementary-elements" class="section level2">
+<h2>Supplementary elements</h2>
+<div id="definition-and-types" class="section level3">
+<h3>Definition and types</h3>
+<p>As described above (section @ref(pca-data-format)), the <code>decathlon2</code> data sets contain <em>supplementary continuous variables</em> (quanti.sup, columns 11:12), <em>supplementary qualitative variables</em> (quali.sup, column 13) and <em>supplementary individuals</em> (ind.sup, rows 24:27).</p>
+<p>Supplementary variables and individuals are not used for the determination of the principal components. Their coordinates are predicted using only the information provided by the performed principal component analysis on active variables/individuals.</p>
+</div>
+<div id="specification-in-pca" class="section level3">
+<h3>Specification in PCA</h3>
+<p>To specify supplementary individuals and variables, the function <em>PCA</em>() can be used as follow:</p>
+<pre class="r"><code>PCA(X, ind.sup = NULL, 
+    quanti.sup = NULL, quali.sup = NULL, graph = TRUE)</code></pre>
+<ul>
+<li><code>X</code> : a data frame. Rows are individuals and columns are numeric variables.</li>
+<li><code>ind.sup</code> : a numeric vector specifying the indexes of the supplementary individuals</li>
+<li><code>quanti.sup</code>, <code>quali.sup</code> : a numeric vector specifying, respectively, the indexes of the quantitative and qualitative variables</li>
+<li><code>graph</code> : a logical value. If TRUE a graph is displayed.</li>
+</ul>
+<p>For example, type this:</p>
+<pre class="r"><code>res.pca <- PCA(decathlon2, ind.sup = 24:27, 
+               quanti.sup = 11:12, quali.sup = 13, graph=FALSE)</code></pre>
+</div>
+<div id="quantitative-variables" class="section level3">
+<h3>Quantitative variables</h3>
+<ul>
+<li>Predicted results (coordinates, correlation and cos2) for the supplementary quantitative variables:</li>
+</ul>
+<pre class="r"><code>res.pca$quanti.sup</code></pre>
+<pre><code>## $coord
+##         Dim.1   Dim.2  Dim.3   Dim.4   Dim.5
+## Rank   -0.701 -0.2452 -0.183  0.0558 -0.0738
+## Points  0.964  0.0777  0.158 -0.1662 -0.0311
+## 
+## $cor
+##         Dim.1   Dim.2  Dim.3   Dim.4   Dim.5
+## Rank   -0.701 -0.2452 -0.183  0.0558 -0.0738
+## Points  0.964  0.0777  0.158 -0.1662 -0.0311
+## 
+## $cos2
+##        Dim.1   Dim.2  Dim.3   Dim.4   Dim.5
+## Rank   0.492 0.06012 0.0336 0.00311 0.00545
+## Points 0.929 0.00603 0.0250 0.02763 0.00097</code></pre>
+<ul>
+<li>Visualize all variables (active and supplementary ones):</li>
+</ul>
+<pre class="r"><code>fviz_pca_var(res.pca)</code></pre>
+<p><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-quantitative-supplementary-variable-data-mining-1.png" width="432" /></p>
+<div class="success">
+<p>
+Note that, by default, supplementary quantitative variables are shown in blue color and dashed lines.
+</p>
+</div>
+<p>Further arguments to customize the plot:</p>
+<pre class="r"><code># Change color of variables
+fviz_pca_var(res.pca,
+             col.var = "black",     # Active variables
+             col.quanti.sup = "red" # Suppl. quantitative variables
+             )
+# Hide active variables on the plot, 
+# show only supplementary variables
+fviz_pca_var(res.pca, invisible = "var")
+# Hide supplementary variables
+fviz_pca_var(res.pca, invisible = "quanti.sup")</code></pre>
+<div class="warning">
+<p>
+Using the <em>fviz_pca_var</em>(), the quantitative supplementary variables are displayed automatically on the correlation circle plot. Note that, you can add the quanti.sup variables manually, using the fviz_add() function, for further customization. An example is shown below.
+</p>
+</div>
+<pre class="r"><code># Plot of active variables
+p <- fviz_pca_var(res.pca, invisible = "quanti.sup")
+# Add supplementary active variables
+fviz_add(p, res.pca$quanti.sup$coord, 
+         geom = c("arrow", "text"), 
+         color = "red")</code></pre>
+</div>
+<div id="individuals" class="section level3">
+<h3>Individuals</h3>
+<ul>
+<li>Predicted results for the supplementary individuals (<code>ind.sup</code>):</li>
+</ul>
+<pre class="r"><code>res.pca$ind.sup</code></pre>
+<ul>
+<li>Visualize all individuals (active and supplementary ones). On the graph, you can add also the supplementary qualitative variables (<code>quali.sup</code>), which coordinates is accessible using <em>res.pca$quali.supp$coord</em>.</li>
+</ul>
+<pre class="r"><code>p <- fviz_pca_ind(res.pca, col.ind.sup = "blue", repel = TRUE)
+p <- fviz_add(p, res.pca$quali.sup$coord, color = "red")
+p</code></pre>
+<p><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-supplementary-individuals-1.png" width="432" /></p>
+<div class="success">
+<p>
+Supplementary individuals are shown in blue. The levels of the supplementary qualitative variable are shown in red color.
+</p>
+</div>
+</div>
+<div id="qualitative-variables" class="section level3">
+<h3>Qualitative variables</h3>
+<p>In the previous section, we showed that you can add the supplementary qualitative variables on individuals plot using <code>fviz_add()</code>.</p>
+<p>Note that, the supplementary qualitative variables can be also used for coloring individuals by groups. This can help to interpret the data. The data sets <code>decathlon2</code> contain a <em>supplementary qualitative variable</em> at columns 13 corresponding to the type of competitions.</p>
+<p>The results concerning the supplementary qualitative variable are:</p>
+<pre class="r"><code>res.pca$quali</code></pre>
+<p>To color individuals by a supplementary qualitative variable, the argument <code>habillage</code> is used to specify the index of the supplementary qualitative variable. Historically, this argument name comes from the FactoMineR package. It’s a french word meaning “dressing” in english. To keep consistency between FactoMineR and factoextra, we decided to keep the same argument name</p>
+<pre class="r"><code>fviz_pca_ind(res.pca, habillage = 13,
+             addEllipses =TRUE, ellipse.type = "confidence",
+             palette = "jco", repel = TRUE) </code></pre>
+<p><img src="http://www.sthda.com/english/sthda-upload/figures/principal-component-methods/006-principal-component-analysis-supplementary-qualitative-variable-1.png" width="528" /></p>
+<div class="notice">
+<p>
+Recall that, to remove the mean points of groups, specify the argument <em>mean.point = FALSE</em>.
+</p>
+</div>
+</div>
+</div>
+<div id="filtering-results" class="section level2">
+<h2>Filtering results</h2>
+<p>If you have many individuals/variable, it’s possible to visualize only some of them using the arguments <code>select.ind</code> and <code>select.var</code>.</p>
+<p><code>select.ind, select.var:</code> a selection of individuals/variable to be plotted. Allowed values are <em>NULL</em> or a <em>list</em> containing the arguments name, cos2 or contrib:</p>
+<ul>
+<li><code>name</code>: is a character vector containing individuals/variable names to be plotted</li>
+<li><code>cos2</code>: if cos2 is in [0, 1], ex: 0.6, then individuals/variables with a cos2 > 0.6 are plotted</li>
+<li><code>if cos2 > 1</code>, ex: 5, then the top 5 active individuals/variables and top 5 supplementary columns/rows with the highest cos2 are plotted</li>
+<li><code>contrib</code>: if contrib > 1, ex: 5, then the top 5 individuals/variables with the highest contributions are plotted</li>
+</ul>
+<pre class="r"><code># Visualize variable with cos2 >= 0.6
+fviz_pca_var(res.pca, select.var = list(cos2 = 0.6))
+# Top 5 active variables with the highest cos2
+fviz_pca_var(res.pca, select.var= list(cos2 = 5))
+# Select by names
+name <- list(name = c("Long.jump", "High.jump", "X100m"))
+fviz_pca_var(res.pca, select.var = name)
+# top 5 contributing individuals and variable
+fviz_pca_biplot(res.pca, select.ind = list(contrib = 5), 
+               select.var = list(contrib = 5),
+               ggtheme = theme_minimal())</code></pre>
+<div class="warning">
+<p>
+When the selection is done according to the contribution values, supplementary individuals/variables are not shown because they don’t contribute to the construction of the axes.
+</p>
+</div>
+</div>
+<div id="exporting-pca-results" class="section level2">
+<h2>Exporting results</h2>
+<div id="export-plots-to-pdfpng-files" class="section level3">
+<h3>Export plots to PDF/PNG files</h3>
+<p>The <code>factoextra</code> package produces a ggplot2-based graphs. To save any ggplots, the standard R code is as follow:</p>
+<pre class="r"><code># Print the plot to a pdf file
+pdf("myplot.pdf")
+print(myplot)
+dev.off()</code></pre>
+<p>In the following examples, we’ll show you how to save the different graphs into pdf or png files.</p>
+<p>The first step is to create the plots you want as an R object:</p>
+<pre class="r"><code># Scree plot
+scree.plot <- fviz_eig(res.pca)
+# Plot of individuals
+ind.plot <- fviz_pca_ind(res.pca)
+# Plot of variables
+var.plot <- fviz_pca_var(res.pca)</code></pre>
+<p>Next, the plots can be exported into a single pdf file as follow:</p>
+<pre class="r"><code>pdf("PCA.pdf") # Create a new pdf device
+print(scree.plot)
+print(ind.plot)
+print(var.plot)
+dev.off() # Close the pdf device</code></pre>
+<div class="notice">
+<p>
+Note that, using the above R code will create the PDF file into your current working directory. To see the path of your current working directory, type getwd() in the R console.
+</p>
+</div>
+<p>To print each plot to specific png file, the R code looks like this:</p>
+<pre class="r"><code># Print scree plot to a png file
+png("pca-scree-plot.png")
+print(scree.plot)
+dev.off()
+# Print individuals plot to a png file
+png("pca-variables.png")
+print(var.plot)
+dev.off()
+# Print variables plot to a png file
+png("pca-individuals.png")
+print(ind.plot)
+dev.off()</code></pre>
+<p>Another alternative, to export ggplots, is to use the function <code>ggexport()</code> [in ggpubr package]. We like ggexport(), because it’s very simple. With one line R code, it allows us to export individual plots to a file (pdf, eps or png) (one plot per page). It can also arrange the plots (2 plot per page, for example) before exporting them. The examples below demonstrates how to export ggplots using ggexport().</p>
+<p>Export individual plots to a pdf file (one plot per page):</p>
+<pre class="r"><code>library(ggpubr)
+ggexport(plotlist = list(scree.plot, ind.plot, var.plot), 
+         filename = "PCA.pdf")</code></pre>
+<p>Arrange and export. Specify <code>nrow</code> and <code>ncol</code> to display multiple plots on the same page:</p>
+<pre class="r"><code>ggexport(plotlist = list(scree.plot, ind.plot, var.plot), 
+         nrow = 2, ncol = 2,
+         filename = "PCA.pdf")</code></pre>
+<p>Export plots to png files. If you specify a list of plots, then multiple png files will be automatically created to hold each plot.</p>
+<pre class="r"><code>ggexport(plotlist = list(scree.plot, ind.plot, var.plot),
+         filename = "PCA.png")</code></pre>
+</div>
+<div id="export-results-to-txtcsv-files" class="section level3">
+<h3>Export results to txt/csv files</h3>
+<p>All the outputs of the PCA (individuals/variables coordinates, contributions, etc) can be exported at once, into a TXT/CSV file, using the function <code>write.infile()</code> [in <em>FactoMineR</em>] package:</p>
+<pre class="r"><code># Export into a TXT file
+write.infile(res.pca, "pca.txt", sep = "\t")
+# Export into a CSV file
+write.infile(res.pca, "pca.csv", sep = ";")</code></pre>
+</div>
+</div>
+<div id="summary" class="section level2">
+<h2>Summary</h2>
+<p>In conclusion, we described how to perform and interpret principal component analysis (PCA). We computed PCA using the <strong>PCA</strong>() function [FactoMineR]. Next, we used the <strong>factoextra</strong> R package to produce ggplot2-based visualization of the PCA results.</p>
+<p>There are other functions [packages] to compute PCA in R:</p>
+<ol style="list-style-type: decimal">
+<li>Using <strong>prcomp</strong>() [stats]</li>
+</ol>
+<pre class="r"><code>res.pca <- prcomp(iris[, -5], scale. = TRUE)</code></pre>
+<p>Read more: <a href="http://www.sthda.com/english/wiki/pca-using-prcomp-and-princomp" class="uri">http://www.sthda.com/english/wiki/pca-using-prcomp-and-princomp</a></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Using <strong>princomp</strong>() [stats]</li>
+</ol>
+<pre class="r"><code>res.pca <- princomp(iris[, -5], cor = TRUE)</code></pre>
+<p>Read more: <a href="http://www.sthda.com/english/wiki/pca-using-prcomp-and-princomp" class="uri">http://www.sthda.com/english/wiki/pca-using-prcomp-and-princomp</a></p>
+<ol start="3" style="list-style-type: decimal">
+<li>Using <strong>dudi.pca</strong>() [ade4]</li>
+</ol>
+<pre class="r"><code>library("ade4")
+res.pca <- dudi.pca(iris[, -5], scannf = FALSE, nf = 5)</code></pre>
+<p>Read more: <a href="http://www.sthda.com/english/wiki/pca-using-ade4-and-factoextra" class="uri">http://www.sthda.com/english/wiki/pca-using-ade4-and-factoextra</a></p>
+<ol start="4" style="list-style-type: decimal">
+<li>Using <strong>epPCA</strong>() [ExPosition]</li>
+</ol>
+<pre class="r"><code>library("ExPosition")
+res.pca <- epPCA(iris[, -5], graph = FALSE)</code></pre>
+<p>No matter what functions you decide to use, in the list above, the factoextra package can handle the output for creating beautiful plots similar to what we described in the previous sections for FactoMineR:</p>
+<pre class="r"><code>fviz_eig(res.pca)     # Scree plot
+fviz_pca_ind(res.pca) # Graph of individuals
+fviz_pca_var(res.pca) # Graph of variables</code></pre>
+</div>
+<div id="further-reading" class="section level2">
+<h2>Further reading</h2>
+<p>For the mathematical background behind CA, refer to the following video courses, articles and books:</p>
+<ul>
+<li>Principal component analysis (article) <span class="citation">(Abdi and Williams 2010)</span>. <a href="https://goo.gl/1Vtwq1" class="uri">https://goo.gl/1Vtwq1</a>.</li>
+<li>Principal Component Analysis Course Using FactoMineR (Video courses). <a href="https://goo.gl/VZJsnM" class="uri">https://goo.gl/VZJsnM</a></li>
+<li>Exploratory Multivariate Analysis by Example Using R (book) <span class="citation">(Husson, Le, and Pagès 2017)</span>.</li>
+<li>Principal Component Analysis (book) <span class="citation">(Jollife 2002)</span>.</li>
+</ul>
+<p>See also:</p>
+<ul>
+<li>PCA using <strong>prcomp</strong>() and <strong>princomp</strong>() (tutorial). <a href="http://www.sthda.com/english/wiki/pca-using-prcomp-and-princomp" class="uri">http://www.sthda.com/english/wiki/pca-using-prcomp-and-princomp</a></li>
+<li>PCA using <strong>ade4</strong> and <strong>factoextra</strong> (tutorial). <a href="http://www.sthda.com/english/wiki/pca-using-ade4-and-factoextra" class="uri">http://www.sthda.com/english/wiki/pca-using-ade4-and-factoextra</a></li>
+</ul>
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2>References</h2>
+<div id="refs" class="references">
+<div id="ref-abdi2010">
+<p>Abdi, Hervé, and Lynne J. Williams. 2010. “Principal Component Analysis.” <em>John Wiley and Sons, Inc. WIREs Comp Stat</em> 2: 433–59. <a href="http://staff.ustc.edu.cn/~zwp/teach/MVA/abdi-awPCA2010.pdf" class="uri">http://staff.ustc.edu.cn/~zwp/teach/MVA/abdi-awPCA2010.pdf</a>.</p>
+</div>
+<div id="ref-husson2017">
+<p>Husson, Francois, Sebastien Le, and Jérôme Pagès. 2017. <em>Exploratory Multivariate Analysis by Example Using R</em>. 2nd ed. Boca Raton, Florida: Chapman; Hall/CRC. <a href="http://factominer.free.fr/bookV2/index.html" class="uri">http://factominer.free.fr/bookV2/index.html</a>.</p>
+</div>
+<div id="ref-jolliffe2002">
+<p>Jollife, I.T. 2002. <em>Principal Component Analysis</em>. 2nd ed. New York: Springer-Verlag. <a href="https://goo.gl/SB86SR" class="uri">https://goo.gl/SB86SR</a>.</p>
+</div>
+<div id="ref-kaiser1961">
+<p>Kaiser, Henry F. 1961. “A Note on Guttman’s Lower Bound for the Number of Common Factors.” <em>British Journal of Statistical Psychology</em> 14: 1–2.</p>
+</div>
+<div id="ref-peresneto2005">
+<p>Peres-Neto, Pedro R., Donald A. Jackson, and Keith M. Somers. 2005. “How Many Principal Components? Stopping Rules for Determining the Number of Non-Trivial Axes Revisited.” <em>British Journal of Statistical Psychology</em> 49: 974–97.</p>
+</div>
+</div>
+</div>
+</div><!--end rdoc-->
+</div>
+<hr />
+<div class="spacer"></div>
+</div>
+<aside>
+<div><i>Last update : <time datetime="2017-09-24T07:33:23+02:00" itemprop="datePublished">24/09/2017</time></i></div>
+<div class="spacer"></div>
+<div class="left smaller">
+<div class="notation" id="notation-112" itemprop="aggregateRating" itemscope="itemscope" itemtype="http://schema.org/AggregateRating">
+<span class="stars">
+<a href="" onclick="return false;" class="fa star fa-star" id="star-112-1"></a>
+<a href="" onclick="return false;" class="fa star fa-star" id="star-112-2"></a>
+<a href="" onclick="return false;" class="fa star fa-star" id="star-112-3"></a>
+<a href="" onclick="return false;" class="fa star fa-star" id="star-112-4"></a>
+<a href="" onclick="return false;" class="fa star fa-star" id="star-112-5"></a>
+</span>
+<span class="notes">
+<span class="number-notes" itemprop="ratingCount">5</span>
+<span title="5 Notes">Notes</span>
+</span>
+<meta itemprop="ratingValue" content="5">
+<meta itemprop="bestRating" content="5">
+</div>
+</div>
+<!--============ AK ========-->
+<br/>
+<div class = "success english-msg">
+Enjoyed this article? Give us 5 stars <span class = "fa fa-star"></span> <span class = "fa fa-star"></span>
+<span class = "fa fa-star"></span><span class = "fa fa-star"></span><span class = "fa fa-star"></span> (just above this text block)! Reader needs to be STHDA member for voting. I’d be very grateful if you’d help it spread by emailing it to a friend, or sharing it on Twitter, Facebook or Linked In. 
+<br/><br/>
+Show me some love with the like buttons below... Thank you and please don't forget to share and comment below!!
+</div>
+<div class = "success french-msg">
+Avez vous aimé cet article? Donnez nous 5 étoiles <span class = "fa fa-star"></span> <span class = "fa fa-star"></span>
+<span class = "fa fa-star"></span><span class = "fa fa-star"></span><span class = "fa fa-star"></span> (juste au dessus de ce block)! Vous devez être membre pour voter. Je vous serais très reconnaissant si vous aidiez à sa diffusion en l'envoyant par courriel à un ami ou en le partageant sur Twitter, Facebook ou Linked In. 
+<br/><br/>
+Montrez-moi un peu d'amour avec les like ci-dessous ... Merci et n'oubliez pas, s'il vous plaît, de partager et de commenter ci-dessous!
+</div>
+<br/>
+<div style="width:100%;height:15px; background-color:white; margin-left:2px; margin-bottom:10px;" class = "google_link">
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5474463749888038"
+     data-ad-slot="4712884969"
+     data-ad-format="link"></ins>
+            </div><br/>
+<div class="spacer"></div>
+                
+                <div class="addthis_native_toolbox"></div>
+                <center>
+                    <br/><br/><br/>
+                     <div class = "annonce_adaptable_bottom">
+                       <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5474463749888038"
+     data-ad-slot="5770815769"
+     data-ad-format="auto"></ins>
+                    </div>
+                </center>
+                <br/>
+                <!--====================================
+                RECOMMENDED BOOKS
+                ========================================-->
+                <div id = "recommended_books">
+                <h2 class = "wiki_paragraph1">Recommended for You!</h2>
+                <br/>
+                 
+                <div class = "small-block book_ads content-privileged-friends">
+                <center>
+                <a href = "http://www.sthda.com/english/web/5-bookadvisor/54-machine-learning-essentials/">
+                <img src = "http://www.sthda.com/english/upload/machine-learning-essentials-frontcover-200px.png" width = "100px"/><br/>
+Machine Learning Essentials: Practical Guide in R
+</a>
+</center>
+                </div>
+                <div class = "small-block book_ads content-privileged-friends">
+                <center>
+                <a href = "http://www.sthda.com/english/web/5-bookadvisor/17-practical-guide-to-cluster-analysis-in-r/">
+                <img src = "http://www.sthda.com/english/upload/practical-guide-to-cluster-analysis-in-r.jpg" /><br/>
+Practical Guide to Cluster Analysis in R
+</a>
+</center>
+                </div>
+                <div class = "small-block book_ads content-privileged-friends">
+                <center>
+                <a href = "http://www.sthda.com/english/web/5-bookadvisor/50-practical-guide-to-principal-component-methods-in-r/">
+                <img src = "http://www.sthda.com/english/sthda-upload/images/principal-component-methods-cover-200px.png" width = "100px" height="125px" /><br/>
+Practical Guide to Principal Component Methods in R
+</a>
+</center>
+                </div>
+                 <div class = "small-block book_ads content-privileged-friends">
+                <center>
+                <a href = "http://www.sthda.com/english/web/5-bookadvisor/52-r-graphics-essentials-for-great-data-visualization-200-practical-examples-you-want-to-know-for-data-science/">
+                <img src = "http://www.sthda.com/english/upload/r-graphics-essentials-cookbook-100.png" /><br/>
+R Graphics Essentials for Great Data Visualization
+</a>
+</center>
+                </div>
+                <div class = "small-block book_ads content-privileged-friends">
+                <center>
+                <a href = "http://www.sthda.com/english/web/5-bookadvisor/53-network-analysis-and-visualization-in-r/">
+                <img src = "http://www.sthda.com/english/upload/network-analysis-and-visualization-in-r-200px.png" width = "100px" /><br/>
+Network Analysis and Visualization in R
+</a>
+</center>
+                </div>
+                <div class = "small-block book_ads">
+                <br/><br/>
+                <center>
+                <a href = "http://www.sthda.com/english/web/5-bookadvisor/" >
+                <span><i class="fa fa-4x fa-arrow-circle-right" aria-hidden="true"></i></span><br/>
+More books on R and data science 
+</a>
+</center>
+                </div>
+                <!--end books -->
+                
+                
+<div class="spacer"></div>
+  
+                <div id="recommended-for-you" class="section level2"><h2>Recommended for you</h2><div class="success"><p>This section contains best data science and self-development resources to help you on your path.</p></div><div class="affiliate-marketing"><h3>Coursera - Online Courses and Specialization</h3><h4>Data science</h4><ul><li><a href="https://www.datanovia.com/en/xkkk" target="_blank" rel="nofollow">Course: Machine Learning: Master the Fundamentals</a> by Standford</li><li><a href="https://www.datanovia.com/en/e85g" target="_blank" rel="nofollow">Specialization: Data Science</a> by Johns Hopkins University</li><li><a href="https://www.datanovia.com/en/xepy" target="_blank" rel="nofollow">Specialization: Python for Everybody</a> by University of Michigan</li><li><a href="https://www.datanovia.com/en/mm6m" target="_blank" rel="nofollow">Courses: Build Skills for a Top Job in any Industry</a> by Coursera</li><li><a href="https://www.datanovia.com/en/xxae" target="_blank" rel="nofollow">Specialization: Master Machine Learning Fundamentals</a> by University of Washington</li><li><a href="https://www.datanovia.com/en/2j0s" target="_blank" rel="nofollow">Specialization: Statistics with R</a> by Duke University</li><li><a href="https://www.datanovia.com/en/ih09" target="_blank" rel="nofollow">Specialization: Software Development in R</a> by Johns Hopkins University</li><li><a href="https://www.datanovia.com/en/sprm" target="_blank" rel="nofollow">Specialization: Genomic Data Science</a> by Johns Hopkins University</li></ul><h4>Popular Courses Launched in 2020</h4><ul><li><a href="https://www.datanovia.com/en/bmsr" target="_blank" rel="nofollow">Google IT Automation with Python</a> by Google</li><li><a href="https://www.datanovia.com/en/qlmg" target="_blank" rel="nofollow">AI for Medicine</a> by deeplearning.ai</li><li><a href="https://www.datanovia.com/en/1fws" target="_blank" rel="nofollow">Epidemiology in Public Health Practice</a> by Johns Hopkins University</li><li><a href="https://www.datanovia.com/en/wp8o" target="_blank" rel="nofollow">AWS Fundamentals</a> by Amazon Web Services</li></ul><h4>Trending Courses</h4><ul><li><a href="https://www.datanovia.com/en/zo43" target="_blank" rel="nofollow">The Science of Well-Being</a> by Yale University</li><li><a href="https://www.datanovia.com/en/hl6x" target="_blank" rel="nofollow">Google IT Support Professional</a> by Google</li><li><a href="https://www.datanovia.com/en/xepy" target="_blank" rel="nofollow">Python for Everybody</a> by University of Michigan</li><li><a href="https://www.datanovia.com/en/lhby" target="_blank" rel="nofollow">IBM Data Science Professional Certificate</a> by IBM</li><li><a href="https://www.datanovia.com/en/c59x" target="_blank" rel="nofollow">Business Foundations</a> by University of Pennsylvania</li><li><a href="https://www.datanovia.com/en/vb4s" target="_blank" rel="nofollow">Introduction to Psychology</a> by Yale University</li><li><a href="https://www.datanovia.com/en/u4tn" target="_blank" rel="nofollow">Excel Skills for Business</a> by Macquarie University</li><li><a href="https://www.datanovia.com/en/e68c" target="_blank" rel="nofollow">Psychological First Aid</a> by Johns Hopkins University</li><li><a href="https://www.datanovia.com/en/wetr" target="_blank" rel="nofollow">Graphic Design</a> by Cal Arts</li></ul><h3>Books - Data Science</h3><h4>Our Books</h4><ul><li><a href="https://www.datanovia.com/en/0cld" target="_blank" rel="nofollow">Practical Guide to Cluster Analysis in R</a> by A. Kassambara (Datanovia)</li><li><a href="https://www.datanovia.com/en/8ktk" target="_blank" rel="nofollow">Practical Guide To Principal Component Methods in R</a> by A. Kassambara (Datanovia)</li><li><a href="https://www.datanovia.com/en/4vs9" target="_blank" rel="nofollow">Machine Learning Essentials: Practical Guide in R</a> by A. Kassambara (Datanovia)</li><li><a href="https://www.datanovia.com/en/lqti" target="_blank" rel="nofollow">R Graphics Essentials for Great Data Visualization</a> by A. Kassambara (Datanovia)</li><li><a href="https://www.datanovia.com/en/udft" target="_blank" rel="nofollow">GGPlot2 Essentials for Great Data Visualization in R</a> by A. Kassambara (Datanovia)</li><li><a href="https://www.datanovia.com/en/y7ld" target="_blank" rel="nofollow">Network Analysis and Visualization in R</a> by A. Kassambara (Datanovia)</li><li><a href="https://www.datanovia.com/en/pqs3" target="_blank" rel="nofollow">Practical Statistics in R for Comparing Groups: Numerical Variables</a> by A. Kassambara (Datanovia)</li><li><a href="https://www.datanovia.com/en/a52c" target="_blank" rel="nofollow">Inter-Rater Reliability Essentials: Practical Guide in R</a> by A. Kassambara (Datanovia)</li></ul><h4>Others</h4><ul><li><a href="https://www.datanovia.com/en/7qlr" target="_blank" rel="nofollow">R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</a> by Hadley Wickham &amp; Garrett Grolemund</li><li><a href="https://www.datanovia.com/en/11a4" target="_blank" rel="nofollow">Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow: Concepts, Tools, and Techniques to Build Intelligent Systems</a> by Aurelien Géron</li><li><a href="https://www.datanovia.com/en/cjm2" target="_blank" rel="nofollow">Practical Statistics for Data Scientists: 50 Essential Concepts</a> by Peter Bruce &amp; Andrew Bruce</li><li><a href="https://www.datanovia.com/en/fu7j" target="_blank" rel="nofollow">Hands-On Programming with R: Write Your Own Functions And Simulations</a> by Garrett Grolemund &amp; Hadley Wickham</li><li><a href="https://www.datanovia.com/en/f7zj" target="_blank" rel="nofollow">An Introduction to Statistical Learning: with Applications in R</a> by Gareth James et al.</li><li><a href="https://www.datanovia.com/en/2u9i" target="_blank" rel="nofollow">Deep Learning with R</a> by François Chollet &amp; J.J. Allaire</li><li><a href="https://www.datanovia.com/en/1flt" target="_blank" rel="nofollow">Deep Learning with Python</a> by François Chollet</li></ul></div></div>
+                
+<section id="comments-list">
+<header>
+<h2>Comments</h2>
+</header>
+<div class="content">
+<div id="msg-helper-fcb7" class="message-helper notice">You are not authorized to post a comment</div>
+<div class="spacer"></div>
+<article id="com785" class="message" itemscope="itemscope" itemtype="http://schema.org/Comment">
+<header>
+<h2>Comment</h2>
+</header>
+<div class="message-container">
+<div class="message-user-infos">
+<div class="message-pseudo">
+<span itemprop="author">Tom the Visitor</span>
+</div>
+<div class="message-level">Visitor</div>
+<img src="/english/templates/sthda/images/no_avatar.png" alt="Avatar" class="message-avatar" />
+</div>
+<div class="message-date">
+<span class="actions">
+<a itemprop="url" href="#com785">#785</a>
+</span>
+<time itemprop="datePublished" datetime="2019-05-07T21:29:33+02:00">05/07/2019 at 21h29</time>
+</div>
+<div class="message-message">
+<div itemprop="text" class="message-content content">Thanks for putting this informative tutorial together....examples are clear and help the reader as they mimic the analyses.....</div>
+</div>
+</div>
+<footer></footer>
+</article>
+<article id="com759" class="message" itemscope="itemscope" itemtype="http://schema.org/Comment">
+<header>
+<h2>Comment</h2>
+</header>
+<div class="message-container">
+<div class="message-user-infos">
+<div class="message-pseudo">
+<span itemprop="author">Visitor</span>
+</div>
+<div class="message-level">Visitor</div>
+<img src="/english/templates/sthda/images/no_avatar.png" alt="Avatar" class="message-avatar" />
+</div>
+<div class="message-date">
+<span class="actions">
+<a itemprop="url" href="#com759">#759</a>
+</span>
+<time itemprop="datePublished" datetime="2019-04-25T13:36:00+02:00">04/25/2019 at 13h36</time>
+</div>
+<div class="message-message">
+<div itemprop="text" class="message-content content">great great great ---<br />
+<br />
+how do you extract the top-performing individual --<br />
+<br />
+fviz_pca_biplot(res.pca, select.ind = list(contrib = 200),<br />
+               select.var = list(contrib = 5),<br />
+               ggtheme = theme_minimal())<br />
+<br />
+-- in tabular format?</div>
+</div>
+</div>
+<footer></footer>
+</article>
+<article id="com693" class="message" itemscope="itemscope" itemtype="http://schema.org/Comment">
+<header>
+<h2>Comment</h2>
+</header>
+<div class="message-container">
+<div class="message-user-infos">
+<div class="message-pseudo">
+<span itemprop="author">Visitor</span>
+</div>
+<div class="message-level">Visitor</div>
+<img src="/english/templates/sthda/images/no_avatar.png" alt="Avatar" class="message-avatar" />
+</div>
+<div class="message-date">
+<span class="actions">
+<a itemprop="url" href="#com693">#693</a>
+</span>
+<time itemprop="datePublished" datetime="2019-02-20T02:27:59+01:00">02/20/2019 at 02h27</time>
+</div>
+<div class="message-message">
+<div itemprop="text" class="message-content content">It looks great,~</div>
+</div>
+</div>
+<footer></footer>
+</article>
+<article id="com685" class="message" itemscope="itemscope" itemtype="http://schema.org/Comment">
+<header>
+<h2>Comment</h2>
+</header>
+<div class="message-container">
+<div class="message-user-infos">
+<div class="message-pseudo">
+<span itemprop="author">Agathe</span>
+</div>
+<div class="message-level">Visitor</div>
+<img src="/english/templates/sthda/images/no_avatar.png" alt="Avatar" class="message-avatar" />
+</div>
+<div class="message-date">
+<span class="actions">
+<a itemprop="url" href="#com685">#685</a>
+</span>
+<time itemprop="datePublished" datetime="2019-02-08T06:54:28+01:00">02/08/2019 at 06h54</time>
+</div>
+<div class="message-message">
+<div itemprop="text" class="message-content content">Dear authors,<br />
+Great article, very helpful. I have a question, I would like to extract PCs to use them as new variables that can represent the variables I used in the PCA. Is there a way to do this using FactomineR or factoextra ?<br />
+Also, you showed how to use a qualitative variable for grouping on the individual plot, is there a way to do it on the correlation circle ?<br />
+<br />
+Thank you</div>
+</div>
+</div>
+<footer></footer>
+</article>
+<article id="com684" class="message" itemscope="itemscope" itemtype="http://schema.org/Comment">
+<header>
+<h2>Comment</h2>
+</header>
+<div class="message-container">
+<div class="message-user-infos">
+<div class="message-pseudo">
+<span itemprop="author">Visitor</span>
+</div>
+<div class="message-level">Visitor</div>
+<img src="/english/templates/sthda/images/no_avatar.png" alt="Avatar" class="message-avatar" />
+</div>
+<div class="message-date">
+<span class="actions">
+<a itemprop="url" href="#com684">#684</a>
+</span>
+<time itemprop="datePublished" datetime="2019-02-06T00:11:42+01:00">02/06/2019 at 00h11</time>
+</div>
+<div class="message-message">
+<div itemprop="text" class="message-content content">wish I found this months ago</div>
+</div>
+</div>
+<footer></footer>
+</article>
+<article id="com681" class="message" itemscope="itemscope" itemtype="http://schema.org/Comment">
+<header>
+<h2>Comment</h2>
+</header>
+<div class="message-container">
+<div class="message-user-infos">
+<div class="message-pseudo">
+<span itemprop="author">Visitor</span>
+</div>
+<div class="message-level">Visitor</div>
+<img src="/english/templates/sthda/images/no_avatar.png" alt="Avatar" class="message-avatar" />
+</div>
+<div class="message-date">
+<span class="actions">
+<a itemprop="url" href="#com681">#681</a>
+</span>
+<time itemprop="datePublished" datetime="2019-01-31T09:42:47+01:00">01/31/2019 at 09h42</time>
+</div>
+<div class="message-message">
+<div itemprop="text" class="message-content content">Hey, Awesome article.  I  have a  very basic questions - suppose when you have  a  dataset  with more than 200 features  and before  performing PCA  as we need  to check  for the correlation (Redundancy) within the dataset.<br />
+<br />
+1.How do you determine that limit (correlation coefficient)  that your variables have this redundancy  which is good enough  to  have accurate results  with PCA ?  and Do we have a way other than corplot to know the correlations for all those 200 variables ? <br />
+<br />
+2.If  Suppose some of the variables have low redundancy , then what are we supposed to do with those variables?<br /></div>
+</div>
+</div>
+<footer></footer>
+</article>
+<article id="com673" class="message" itemscope="itemscope" itemtype="http://schema.org/Comment">
+<header>
+<h2>Comment</h2>
+</header>
+<div class="message-container">
+<div class="message-user-infos">
+<div class="message-pseudo">
+<span itemprop="author">Visitor</span>
+</div>
+<div class="message-level">Visitor</div>
+<img src="/english/templates/sthda/images/no_avatar.png" alt="Avatar" class="message-avatar" />
+</div>
+<div class="message-date">
+<span class="actions">
+<a itemprop="url" href="#com673">#673</a>
+</span>
+<time itemprop="datePublished" datetime="2019-01-17T08:03:19+01:00">01/17/2019 at 08h03</time>
+</div>
+<div class="message-message">
+<div itemprop="text" class="message-content content">Loved it, this really helped me a lot in getting some useful plots for my work</div>
+</div>
+</div>
+<footer></footer>
+</article>
+<article id="com664" class="message" itemscope="itemscope" itemtype="http://schema.org/Comment">
+<header>
+<h2>Comment</h2>
+</header>
+<div class="message-container">
+<div class="message-user-infos">
+<div class="message-pseudo">
+<span itemprop="author">Visitor</span>
+</div>
+<div class="message-level">Visitor</div>
+<img src="/english/templates/sthda/images/no_avatar.png" alt="Avatar" class="message-avatar" />
+</div>
+<div class="message-date">
+<span class="actions">
+<a itemprop="url" href="#com664">#664</a>
+</span>
+<time itemprop="datePublished" datetime="2018-12-17T20:57:52+01:00">12/17/2018 at 20h57</time>
+</div>
+<div class="message-message">
+<div itemprop="text" class="message-content content">Never mind. I believe I figured this out. I simply misunderstood what the function was doing.</div>
+</div>
+</div>
+<footer></footer>
+</article>
+<article id="com663" class="message" itemscope="itemscope" itemtype="http://schema.org/Comment">
+<header>
+<h2>Comment</h2>
+</header>
+<div class="message-container">
+<div class="message-user-infos">
+<div class="message-pseudo">
+<span itemprop="author">Visitor</span>
+</div>
+<div class="message-level">Visitor</div>
+<img src="/english/templates/sthda/images/no_avatar.png" alt="Avatar" class="message-avatar" />
+</div>
+<div class="message-date">
+<span class="actions">
+<a itemprop="url" href="#com663">#663</a>
+</span>
+<time itemprop="datePublished" datetime="2018-12-17T20:44:12+01:00">12/17/2018 at 20h44</time>
+</div>
+<div class="message-message">
+<div itemprop="text" class="message-content content">Hello - I'm attempting to use your function fviz_pca_var to visualize my variables' correlation with a continuous vairable. The code I'm running is:<br />
+res.pca &lt;- PCA(All_lumiled_data_log_transformed[,c(20:59)], graph = FALSE)<br />
+fviz_pca_var(res.pca, col.var = NPQ.values,<br />
+                      gradient.cols = c("blue", "yellow", "red"),<br />
+                      legend.title = "Cont.Var")<br />
+The error I'm getting is:<br />
+Error in fviz(X, element = "var", axes = axes, geom = geom.var, color = col.var,  :<br />
+  The length of color variableshould be the same as the number of rows in the data.<br />
+However, the length of the color variable is already the same as the number of rows in the data, as demonstrated by:<br />
+&gt;nrow(All_lumiled_data_log_transformed[,c(20:59)])<br />
+[1] 5<br />
+&gt; length(NPQ.values)<br />
+[1] 5<br />
+What am I doing wrong?</div>
+</div>
+</div>
+<footer></footer>
+</article>
+<article id="com661" class="message" itemscope="itemscope" itemtype="http://schema.org/Comment">
+<header>
+<h2>Comment</h2>
+</header>
+<div class="message-container">
+<div class="message-user-infos">
+<div class="message-pseudo">
+<span itemprop="author">Visitor</span>
+</div>
+<div class="message-level">Visitor</div>
+<img src="/english/templates/sthda/images/no_avatar.png" alt="Avatar" class="message-avatar" />
+</div>
+<div class="message-date">
+<span class="actions">
+<a itemprop="url" href="#com661">#661</a>
+</span>
+<time itemprop="datePublished" datetime="2018-12-14T20:00:58+01:00">12/14/2018 at 20h00</time>
+</div>
+<div class="message-message">
+<div itemprop="text" class="message-content content">Wow! This is the PCA tutorial I have always been looking for but could never find. I was beginning to think it didn't exist! Thanks for giving me the info I need to step up my PCA game!</div>
+</div>
+</div>
+<footer></footer>
+</article>
+<article id="com612" class="message" itemscope="itemscope" itemtype="http://schema.org/Comment">
+<header>
+<h2>Comment</h2>
+</header>
+<div class="message-container">
+<div class="message-user-infos">
+<div class="message-pseudo">
+<span itemprop="author">Visitor</span>
+</div>
+<div class="message-level">Visitor</div>
+<img src="/english/templates/sthda/images/no_avatar.png" alt="Avatar" class="message-avatar" />
+</div>
+<div class="message-date">
+<span class="actions">
+<a itemprop="url" href="#com612">#612</a>
+</span>
+<time itemprop="datePublished" datetime="2018-09-21T17:20:48+02:00">09/21/2018 at 17h20</time>
+</div>
+<div class="message-message">
+<div itemprop="text" class="message-content content">Is it possible to plot both the variance and cumulative variance in the same scree plot</div>
+</div>
+</div>
+<footer></footer>
+</article>
+<article id="com578" class="message" itemscope="itemscope" itemtype="http://schema.org/Comment">
+<header>
+<h2>Comment</h2>
+</header>
+<div class="message-container">
+<div class="message-user-infos">
+<div class="message-pseudo">
+<span itemprop="author">Enrique</span>
+</div>
+<div class="message-level">Visitor</div>
+<img src="/english/templates/sthda/images/no_avatar.png" alt="Avatar" class="message-avatar" />
+</div>
+<div class="message-date">
+<span class="actions">
+<a itemprop="url" href="#com578">#578</a>
+</span>
+<time itemprop="datePublished" datetime="2018-08-02T17:02:04+02:00">08/02/2018 at 17h02</time>
+</div>
+<div class="message-message">
+<div itemprop="text" class="message-content content">Hi. Thanks for this tutorial. I have a question. How can I change the type of font and put bold in fviz_pca_biplot to the labels of the individuals and the variables?<br />
+I appreciate the collaboration</div>
+</div>
+</div>
+<footer></footer>
+</article>
+<article id="com576" class="message" itemscope="itemscope" itemtype="http://schema.org/Comment">
+<header>
+<h2>Comment</h2>
+</header>
+<div class="message-container">
+<div class="message-user-infos">
+<div class="message-pseudo">
+<span itemprop="author">Julie</span>
+</div>
+<div class="message-level">Visitor</div>
+<img src="/english/templates/sthda/images/no_avatar.png" alt="Avatar" class="message-avatar" />
+</div>
+<div class="message-date">
+<span class="actions">
+<a itemprop="url" href="#com576">#576</a>
+</span>
+<time itemprop="datePublished" datetime="2018-07-31T21:44:49+02:00">07/31/2018 at 21h44</time>
+</div>
+<div class="message-message">
+<div itemprop="text" class="message-content content">Hi I do not understand how you removed the shading of the ellipse in one of the biplot examples? I want my individual plot to have ellipses but without the shading in the ellipse.<br />
+<br />
+Also could you explain what concentration ellipses represent versus confidence ellipses?<br />
+<br />
+Thanks for the great tutorial</div>
+</div>
+</div>
+<footer></footer>
+</article>
+<article id="com572" class="message" itemscope="itemscope" itemtype="http://schema.org/Comment">
+<header>
+<h2>Comment</h2>
+</header>
+<div class="message-container">
+<div class="message-user-infos">
+<div class="message-pseudo">
+<span itemprop="author">Visitor</span>
+</div>
+<div class="message-level">Visitor</div>
+<img src="/english/templates/sthda/images/no_avatar.png" alt="Avatar" class="message-avatar" />
+</div>
+<div class="message-date">
+<span class="actions">
+<a itemprop="url" href="#com572">#572</a>
+</span>
+<time itemprop="datePublished" datetime="2018-07-26T11:59:25+02:00">07/26/2018 at 11h59</time>
+</div>
+<div class="message-message">
+<div itemprop="text" class="message-content content">Another question: Is there any way I can put redundant labels on the individuals? I need this since at times the data in the unique label is also present in the legend, and the long labels are unnecessary.</div>
+</div>
+</div>
+<footer></footer>
+</article>
+<article id="com571" class="message" itemscope="itemscope" itemtype="http://schema.org/Comment">
+<header>
+<h2>Comment</h2>
+</header>
+<div class="message-container">
+<div class="message-user-infos">
+<div class="message-pseudo">
+<span itemprop="author">Visitor</span>
+</div>
+<div class="message-level">Visitor</div>
+<img src="/english/templates/sthda/images/no_avatar.png" alt="Avatar" class="message-avatar" />
+</div>
+<div class="message-date">
+<span class="actions">
+<a itemprop="url" href="#com571">#571</a>
+</span>
+<time itemprop="datePublished" datetime="2018-07-26T11:38:10+02:00">07/26/2018 at 11h38</time>
+</div>
+<div class="message-message">
+<div itemprop="text" class="message-content content">Hi, great tutorial, thanks!!!<br />
+<br />
+I wondered if you could change the circumference of the individual's points in biplot but leave the labels according to the fill color...</div>
+</div>
+</div>
+<footer></footer>
+</article>
+</div>
+<footer></footer>
+</section>
+<div class="center">
+<button type="submit" class="submit" id="refresh-comments">See other comments</button>
+</div>
+</aside>
+<footer></footer>
+</article>
+</div>
+<footer></footer>
+</section>
+</div>
+</div>
+<div class="spacer"></div>
+</div>
+<footer id="footer">
+<div id="top-footer">
+<div id="newsletter">
+<form action="/english/newsletter/?url=/subscribe/" method="post">
+<div class="newsletter-form input-element-button">
+<span class="newsletter-title">Newsletter</span> 
+<input type="text" name="mail_newsletter" maxlength="50" value="" placeholder="Email">
+<input type="hidden" name="subscribe" value="subscribe">
+<input type="hidden" name="token" value="14e2ed99673455ae">
+<button type="submit" class="newsletter-submit"><i class="fa fa-envelope-o"></i></button>
+</div>
+</form>
+</div>
+<div class="spacer"></div>
+</div>
+<div class="footer-infos">
+<span class="footer-infos-powered-by">Boosted by <a href="http://www.phpboost.com" title="Link to PHPBoost CMS official website">PHPBoost</a> </span>
+</div>
+</footer>
+   
+<link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.base.css" type="text/css" />
+<link rel="stylesheet" href="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0//styles/jqx.ui-start.css" type="text/css" />
+<!--- ak -->
+  
+ 
+ 
+<style>#rdoc .caption{display:none;}</style>
+ 
+<a id="scroll-to-top" class="scroll-to" href="#" title="Scroll to Top"><i class="fa fa-chevron-up"></i></a>
+<script>
+<!--
+//Variables PHPBoost
+var PATH_TO_ROOT = "/english";
+var TOKEN        = "14e2ed99673455ae";
+var THEME        = "sthda";
+var LANG         = "english";
+//Variables BBCode
+var L_HIDE_MESSAGE    = 'This message is hidden, click here to reveal its contents.';
+var L_HIDE_HIDEBLOCK  = 'Click here to hide this message.';
+var L_COPYTOCLIPBOARD = 'Copy to Clipboard';
+//Variables CookieBar
+var COOKIEBAR_DURATION        = 12;
+var COOKIEBAR_TRACKING_MODE   = 'notracking';
+var L_COOKIEBAR_CONTENT       = 'This website uses cookies to ensure you get the best experience on our website.';
+var L_COOKIEBAR_UNDERSTAND    = 'Ok';
+var L_COOKIEBAR_ALLOWED       = 'Allowed';
+var L_COOKIEBAR_DECLINED      = 'Declined';
+var L_COOKIEBAR_MORE_TITLE    = 'Explanations on the management of cookies and the &quot;cookie-bar&quot; (Learn more)';
+var L_COOKIEBAR_MORE          = 'Learn more';
+var L_COOKIEBAR_CHANGE_CHOICE = 'Change your preferences';
+var U_COOKIEBAR_ABOUTCOOKIE   = '/english/user/aboutcookie/';
+-->
+</script><script src="/english/kernel/lib/js/jquery/jquery.js"></script><script src="/english/kernel/lib/js/global.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script><script src="/english/kernel/lib/js/phpboost/notation.js"></script><script src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxcore.js"></script><script src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxmenu.js"></script><script src="/english/rsthda/templates/scripts/jqwidgets-ver3.5.0/jqxbuttons.js"></script><script src="/english/templates/sthda/ak/global.js"></script><script src="/english/sthda/js/jquery.gdocsviewer.min.js"></script><script src="/english/templates/sthda/ak/knitr.rcode.highlight.js"></script><script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50f0e98f7770f530"></script><script src="/english/kernel/lib/js/lightcase/lightcase.js"></script><script src="/english/user/templates/js/cookiebar.js"></script><script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#000"
+    },
+    "button": {
+      "background": "#f1d600"
+    }
+  },
+  "position": "bottom-left",
+  "type": "opt-in",
+  "content": {
+    "message": "This website uses cookies to ensure you get the best experience on our website, to personalize content and ads and to analyze our traffic. We also share information about your use of our site with our social media, advertising and analytics partners. By using our site you agree to our use of cookies",
+    "dismiss": "Decline",
+    "allow": "OK",
+    "href": "https://www.google.com/intl/en/policies/privacy/partners/"
+  }
+})});
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-5474463749888038",
+          enable_page_level_ads: true
+     });
+function check_search_mini_form_post()
+{
+var textSearched = document.getElementById('TxTMiniSearched').value;
+if (textSearched.length > 3)
+{
+textSearched = escape_xmlhttprequest(textSearched);
+return true;
+}
+else
+{
+alert('The size of the string you\'re searching for must be at least 4 characters long!');
+return false;
+}
+}
+jQuery(document).ready(function() {
+jQuery('#search-token').val(TOKEN);
+});
+jQuery("#cssmenu-1764").menumaker({ title: "R & Data Mining", format: "multitoggle", breakpoint: 768 }); 
+function check_connect()
+{
+if( document.getElementById('login').value == "" )
+{
+alert("Please enter a nickname !");
+return false;
+}
+if( document.getElementById('password').value == "" )
+{
+alert("Please enter a password !");
+return false;
+}
+}
+function open_submenu(myid)
+{
+jQuery('#' + myid).toggleClass('active');
+}
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    jQuery("#cssmenu-1825").menumaker({ title: "R Packages", format: "multitoggle", breakpoint: 768 }); 
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  jQuery("#cssmenu-1849").menumaker({ title: "Blogroll", format: "multitoggle", breakpoint: 768 }); 
+(adsbygoogle = window.adsbygoogle || []).push({});
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+var NOTATION_LANG_AUTH = 'You don\'t have the required level!';
+var NOTATION_LANG_ALREADY_VOTE = 'You have already voted';
+var NOTATION_LANG_NOTE = 'Note';
+var NOTATION_LANG_NOTES = 'Notes';
+var NOTATION_USER_CONNECTED = '';
+jQuery(document).ready(function() { new Note('112', '5', '5', ''); });
+(adsbygoogle = window.adsbygoogle || []).push({});
+(adsbygoogle = window.adsbygoogle || []).push({});
+function refresh_comments() {
+jQuery.ajax({
+url: PATH_TO_ROOT + '/kernel/framework/ajax/dispatcher.php?url=/comments/display/',
+type: "post",
+dataType: "html",
+data: {module_id: 'articles', id_in_module: '112', topic_identifier: 'default', token: '14e2ed99673455ae'},
+success: function(returnData){
+jQuery("#comments-list").append(returnData);
+jQuery('#refresh-comments').remove();
+}
+});
+}
+jQuery(document).ready(function(){ 
+jQuery("#refresh-comments").click(function() {
+refresh_comments();
+});
+});
+ 
+/*<![CDATA[*/
+var jQuery = jQuery.noConflict();
+jQuery(document).ready(function() {
+   if(jQuery('a.embed').length!=0) jQuery('a.embed').gdocsViewer({width: "98%", height: 600});
+    if(jQuery('a.view').length!=0) jQuery('a.view').gdocsViewer({width: "98%", height: 600});
+});
+/*]]>*/
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+ 
+jQuery('[data-confirmation]').each(function() {
+data_confirmation = jQuery(this).attr('data-confirmation');
+if (data_confirmation == 'delete-element')
+var message = 'Do you really want to delete this item ?';
+else
+var message = data_confirmation;
+this.onclick = function () { return confirm(message); }
+});
+jQuery(document).ready(function() {
+jQuery('a[rel^=lightbox]').attr('data-rel', 'lightcase:collection');
+jQuery('a[data-lightbox^=formatter]').attr('data-rel', 'lightcase:collection');
+jQuery('a[data-rel^=lightcase]').lightcase({
+labels : {
+'errorMessage'    : 'The item you requested does not exist.',
+'sequenceInfo.of' : ' ' + 'of' + ' ',
+'close'           : 'Close',
+'navigator.prev'  : 'Previous',
+'navigator.next'  : 'Next',
+'navigator.play'  : 'Play',
+'navigator.pause' : 'Pause'
+},
+maxHeight: window.innerHeight,
+maxWidth: window.innerWidth,
+shrinkFactor: 0.85
+});
+});
+jQuery('#table').basictable();
+jQuery('#table2').basictable();
+jQuery('#table3').basictable();
+jQuery('#table4').basictable();
+jQuery('#table5').basictable();
+jQuery(function() {
+jQuery(".lined").linedtextarea();
+});
+</script></body>
+</html>
