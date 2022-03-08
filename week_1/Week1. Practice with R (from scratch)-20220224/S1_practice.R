@@ -158,7 +158,9 @@ class(l1[1])
 
 l1[[1]]             # Double bracket to access the item
 class(l1[[1]])
-
+#############################################################################
+#############################################################################
+#############################################################################
 
 ##-- Problem 1.1:
 # 1. Create a data.frame with the following data
@@ -212,7 +214,7 @@ rep(seq(2,10,by=2),2)      #repeat two times the sequences from 2 to 10, each 2
 v1
 if (v1[1]==32) print("The age of the first subject is 32")  # if --> logical condition
 
-for (i in 1:5) print(v1[i])                                  # Loop
+for (i in 1:5) print(v1[i])               # Loop
 
 
 ##-- Object management
@@ -434,7 +436,7 @@ bike <- read.csv("bikes.csv")
 dim(bike)
 head(bike)
 tail(bike)
-str(bike)
+str(bike) ###########PREGUNTAR QUE HACE ESTO :/
 
 
 # Description of the data set
