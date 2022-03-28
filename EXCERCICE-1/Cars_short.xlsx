@@ -1,0 +1,426 @@
+"Name","Engine","Cylinders","Horsepower","Weight","WheelBase","Length","Width"
+"Dodge Viper SRT-10 convertible 2",8.3,10,500,3410,99,176,75
+"Mercedes-Benz CL600 2dr",5.5,12,493,4473,114,196,73
+"Mercedes-Benz SL55 AMG 2dr",5.5,8,493,4235,101,179,72
+"Mercedes-Benz SL600 convertible",5.5,12,493,4429,101,179,72
+"Porsche 911 GT2 2dr",3.6,6,477,3131,93,175,72
+"Audi RS 6 4dr",4.2,8,450,4024,109,191,78
+"Volkswagen Phaeton W12 4dr",6,12,420,5399,118,204,75
+"Jaguar S-Type R 4dr",4.2,8,390,4046,115,192,72
+"Jaguar XJR 4dr",4.2,8,390,3948,119,200,73
+"Jaguar XKR coupe 2dr",4.2,8,390,3865,102,187,71
+"Jaguar XKR convertible 2dr",4.2,8,390,4042,102,187,71
+"Chevrolet Corvette 2dr",5.7,8,350,3246,105,180,74
+"Chevrolet Corvette convertible 2",5.7,8,350,3248,105,180,74
+"Mercedes-Benz C32 AMG 4dr",3.2,6,349,3540,107,178,68
+"Mercedes-Benz SLK32 AMG 2dr",3.2,6,349,3220,95,158,68
+"Cadillac Escalade EXT",6,8,345,5879,130,NA,NA
+"Audi S4 Quattro 4dr",4.2,8,340,3825,104,179,70
+"Infiniti M45 4dr",4.5,8,340,3851,110,197,70
+"Infiniti Q45 Luxury 4dr",4.5,8,340,3977,113,200,73
+"Pontiac GTO 2dr",5.7,8,340,3725,110,190,73
+"Porsche Cayenne S",4.5,8,340,4950,112,188,76
+"Audi S4 Avant Quattro",4.2,8,340,3936,104,179,70
+"Volkswagen Phaeton 4dr",4.2,8,335,5194,118,204,75
+"BMW M3 coupe 2dr",3.2,6,333,3415,108,177,70
+"BMW M3 convertible 2dr",3.2,6,333,3781,108,177,70
+"Audi A8 L Quattro 4dr",4.2,8,330,4399,121,204,75
+"BMW 545iA 4dr",4.4,8,325,3814,114,191,73
+"BMW 745i 4dr",4.4,8,325,4376,118,198,75
+"BMW 745Li 4dr",4.4,8,325,4464,123,204,75
+"GMC Yukon XL 2500 SLT",6,8,325,6133,130,219,79
+"BMW X5 4.4i",4.4,8,325,4824,111,184,74
+"Toyota Land Cruiser",4.7,8,325,5390,112,193,76
+"Cadillac XLR convertible 2dr",4.6,8,320,3647,106,178,72
+"Cadillac SRX V8",4.6,8,320,4302,116,195,73
+"Porsche 911 Carrera convertible",3.6,6,315,3135,93,175,70
+"Porsche 911 Carrera 4S coupe 2dr",3.6,6,315,3240,93,175,72
+"Porsche 911 Targa coupe 2dr",3.6,6,315,3119,93,175,70
+"Infiniti FX45",4.5,8,315,4309,112,189,76
+"Nissan Pathfinder Armada SE",5.6,8,305,5013,123,207,79
+"Nissan Titan King Cab XE",5.6,8,305,5287,140,NA,NA
+"Mercury Marauder 4dr",4.6,8,302,4195,115,212,78
+"Mercedes-Benz CL500 2dr",5,8,302,4085,114,196,73
+"Mercedes-Benz CLK500 coupe 2dr (",5,8,302,3585,107,183,69
+"Mercedes-Benz E500 4dr",5,8,302,3815,112,190,71
+"Mercedes-Benz S500 4dr",5,8,302,4390,122,203,73
+"Mercedes-Benz SL500 convertible",5,8,302,4065,101,179,72
+"Lincoln Aviator Ultimate",4.6,8,302,4834,114,193,76
+"Mercedes-Benz E500",5,8,302,4230,112,190,71
+"Volvo S60 R 4dr",2.5,5,300,3571,107,181,71
+"Audi A6 4.2 Quattro 4dr",4.2,8,300,4024,109,193,71
+"Cadillac Deville DTS 4dr",4.6,8,300,4044,115,207,74
+"Lexus GS 430 4dr",4.3,8,300,3715,110,189,71
+"Lexus SC 430 convertible 2dr",4.3,8,300,3840,103,178,72
+"Subaru Impreza WRX STi 4dr",2.5,4,300,3263,100,174,69
+"Chevrolet Silverado SS",6,8,300,4804,144,NA,NA
+"Chevrolet SSR",5.3,8,300,4760,116,NA,NA
+"Ford F-150 Supercab Lariat",5.4,8,300,5464,133,NA,NA
+"GMC Sierra HD 2500",6,8,300,5440,133,NA,NA
+"Cadillac Escaladet",5.3,8,295,5367,116,199,79
+"Chevrolet Suburban 1500 LT",5.3,8,295,4947,130,219,79
+"Chevrolet Tahoe LT",5.3,8,295,5050,116,197,79
+"Chevrolet Avalanche 1500",5.3,8,295,5678,130,NA,NA
+"Jaguar S-Type 4.2 4dr",4.2,8,294,3874,115,192,72
+"Jaguar Vanden Plas 4dr",4.2,8,294,3803,119,200,73
+"Jaguar XJ8 4dr",4.2,8,294,3803,119,200,73
+"Jaguar XK8 coupe 2dr",4.2,8,294,3779,102,187,71
+"Jaguar XK8 convertible 2dr",4.2,8,294,3980,102,187,71
+"Mercedes-Benz G500",5,8,292,5423,112,186,71
+"Lexus LS 430 4dr",4.3,8,290,3990,115,197,72
+"Acura NSX coupe 2dr manual S",3.2,6,290,3153,100,174,71
+"Mercedes-Benz ML500",5,8,288,4874,111,183,72
+"Nissan 350Z coupe 2dr",3.5,6,287,3188,104,169,72
+"Nissan 350Z Enthusiast convertib",3.5,6,287,3428,104,169,72
+"CMC Yukon 1500 SLE",4.8,8,285,5042,116,199,79
+"GMC Sierra Extended Cab 1500",4.8,8,285,4548,144,NA,NA
+"Land Rover Range Rover HSE",4.4,8,282,5379,113,195,76
+"Infiniti G35 Sport Coupe 2dr",3.5,6,280,3416,112,182,72
+"Lincoln LS V8 Sport 4dr",3.9,8,280,3768,115,194,73
+"Lincoln LS V8 Ultimate 4dr",3.9,8,280,3768,115,194,73
+"Ford Thunderbird Deluxe convert",3.9,8,280,3780,107,186,72
+"Infiniti FX35",3.5,6,280,4056,112,189,76
+"Pontiac Bonneville GXP 4dr",4.6,8,275,3790,112,203,74
+"Cadillac Deville 4dr",4.6,8,275,3984,115,207,74
+"Cadillac Seville SLS 4dr",4.6,8,275,3992,112,201,75
+"Mercedes-Benz S430 4dr",4.3,8,275,4160,122,203,73
+"GMC Envoy XUV SLE",4.2,6,275,4945,129,208,75
+"Isuzu Ascender S",4.2,6,275,4967,129,208,76
+"Buick Rainier",4.2,6,275,4600,113,193,75
+"Chevrolet TrailBlazer LT",4.2,6,275,4425,113,192,75
+"Mitsubishi Lancer Evolution 4dr",2,4,271,3263,103,179,70
+"Acura TL 4dr",3.2,6,270,3575,108,186,72
+"Volkswagen Passat W8 4MOTION 4dr",4,8,270,3953,106,185,69
+"Volkswagen Passat W8",4,8,270,4067,106,184,69
+"Volvo S80 T6 4dr",2.9,6,268,3653,110,190,72
+"Volvo XC90 T6",2.9,6,268,4638,113,189,75
+"Nissan Maxima SE 4dr",3.5,6,265,3473,111,194,72
+"Nissan Maxima SL 4dr",3.5,6,265,3476,111,194,72
+"Acura MDX",3.5,6,265,4451,106,189,77
+"Infiniti G35 4dr",3.5,6,260,3336,112,187,69
+"Infiniti G35 4dr",3.5,6,260,3677,112,187,69
+"Ford Mustang GT Premium converti",4.6,8,260,3347,101,183,73
+"Porsche Boxster S convertible 2d",3.2,6,258,2911,95,170,70
+"Cadillac CTS VVT 4dr",3.6,6,255,3694,113,190,71
+"Chrysler 300M Special Edition 4d",3.5,6,255,3650,113,198,74
+"Infiniti I35 4dr",3.5,6,255,3306,108,194,70
+"Chrysler 300M 4dr",3.5,6,250,3581,113,198,74
+"Saab 9-5 Aero 4dr",2.3,4,250,3470,106,190,71
+"Audi A6 2.7 Turbo Quattro 4dr",2.7,6,250,3836,109,192,71
+"Audi TT 3.2 coupe 2dr (convertib",3.2,6,250,3351,96,159,73
+"Chrysler Pacifica",3.5,6,250,4675,116,199,79
+"Saab 9-5 Aero",2.3,4,250,3620,106,190,71
+"Volvo S60 T5 4dr",2.3,5,247,3766,107,180,71
+"Nissan Altima SE 4dr",3.5,6,245,3197,110,192,70
+"Toyota 4Runner SR5 V6",4,6,245,4035,110,189,74
+"Nissan Murano SL",3.5,6,245,3801,111,188,74
+"Volvo C70 HPT convertible 2dr",2.3,5,242,3450,105,186,72
+"Buick Regal GS 4dr",3.8,6,240,3536,109,196,73
+"Chevrolet Impala SS 4dr",3.8,6,240,3606,111,200,73
+"Honda Accord LX V6 4dr",3,6,240,3349,108,190,72
+"Honda Accord EX V6 2dr",3,6,240,3294,105,188,71
+"Buick Park Avenue Ultra 4dr",3.8,6,240,3909,114,207,75
+"Honda S2000 convertible 2dr",2.2,4,240,2835,95,162,69
+"Toyota Sequoia SR5",4.7,8,240,5270,118,204,78
+"Honda Pilot LX",3.5,6,240,4387,106,188,77
+"Nissan Pathfinder SE",3.5,6,240,3871,106,183,72
+"Honda Odyssey LX",3.5,6,240,4310,118,201,76
+"Honda Odyssey EX",3.5,6,240,4365,118,201,76
+"Nissan Quest S",3.5,6,240,4012,124,204,78
+"Nissan Quest SE",3.5,6,240,4175,124,204,78
+"Ford Crown Victoria LX Sport 4dr",4.6,8,239,4057,115,212,78
+"Lincoln Town Car Signature 4dr",4.6,8,239,4369,118,215,78
+"Lincoln Town Car Ultimate 4dr",4.6,8,239,4369,118,215,78
+"Lincoln Town Car Ultimate L 4dr",4.6,8,239,4474,124,221,78
+"Mazda RX-8 4dr manual",1.3,-1,238,3029,106,174,NA
+"Jaguar S-Type 3.0 4dr",3,6,235,3777,115,192,72
+"Lexus GX 470",4.7,8,235,4740,110,188,74
+"Lexus LX 470",4.7,8,235,5590,112,193,76
+"Chrysler Concorde LXi 4dr",3.5,6,232,3548,113,208,74
+"Dodge Intrepid ES 4dr",3.5,6,232,3487,113,204,75
+"Lincoln LS V6 Luxury 4dr",3,6,232,3681,115,194,73
+"Lincoln LS V6 Premium 4dr",3,6,232,3681,115,194,73
+"Ford Expedition 4.6 XLT",4.6,8,232,5000,119,206,79
+"Ford F-150 Regular Cab XL",4.6,8,231,4788,126,NA,NA
+"Mitsubishi Galant GTS 4dr",3.8,6,230,3649,108,191,72
+"Dodge Durango SLT",4.7,8,230,4987,119,201,76
+"Lexus RX 330",3.3,6,230,4065,107,186,73
+"Toyota Highlander V6",3.3,6,230,3935,107,185,72
+"Toyota Sienna CE",3.3,6,230,4120,119,200,77
+"Toyota Sienna XLE Limited",3.3,6,230,4165,119,200,77
+"Porsche Boxster convertible 2dr",2.7,6,228,2811,95,170,70
+"Jaguar X-Type 3.0 4dr",3,6,227,3516,107,184,70
+"Subaru Impreza WRX 4dr",2,4,227,3085,99,174,69
+"Toyota Camry Solara SE V6 2dr",3.3,6,225,3417,107,193,72
+"Toyota Camry Solara SLE V6 2dr",3.3,6,225,3439,107,193,72
+"BMW 330i 4dr",3,6,225,3285,107,176,69
+"BMW 330Ci 2dr",3,6,225,3285,107,176,69
+"BMW 330xi 4dr",3,6,225,3483,107,176,69
+"Lexus ES 330 4dr",3.3,6,225,3460,107,191,71
+"Acura 3.5 RL 4dr",3.5,6,225,3880,115,197,72
+"Acura 3.5 RL w/Navigation 4dr",3.5,6,225,3893,115,197,72
+"BMW 330Ci convertible 2dr",3,6,225,3616,107,177,69
+"BMW 530i 4dr",3,6,225,3472,114,191,73
+"Audi TT 1.8 Quattro 2dr (convert",1.8,4,225,2921,96,159,73
+"BMW Z4 convertible 3.0i 2dr",3,6,225,2998,98,161,70
+"BMW X3 3.0i",3,6,225,4023,110,180,73
+"Ford Crown Victoria 4dr",4.6,8,224,4057,115,212,78
+"Ford Crown Victoria LX 4dr",4.6,8,224,4057,115,212,78
+"Mercury Grand Marquis GS 4dr",4.6,8,224,4052,115,212,78
+"Mercury Grand Marquis LS Premium",4.6,8,224,4052,115,212,78
+"Mercury Grand Marquis LS Ultimat",4.6,8,224,4052,115,212,78
+"Mercedes-Benz E320 4dr",3.2,6,221,3635,112,190,71
+"Mercedes-Benz E320",3.2,6,221,3966,112,190,71
+"Chrvsler PT Cruiser GT 4dr",2.4,4,220,3217,103,169,67
+"Audi A4 3.0 4dr",3,6,220,3462,104,179,70
+"Audi A4 3.0 Quattro 4dr manual",3,6,220,3583,104,179,70
+"Audi A4 3.0 Quattro 4dr auto",3,6,220,3627,104,179,70
+"Audi A6 3.0 4dr",3,6,220,3561,109,192,71
+"Audi A6 3.0 Quattro 4dr",3,6,220,3880,109,192,71
+"Saab 9-5 Arc 4dr",2.3,4,220,3470,106,190,71
+"Audi A4 3.0 convertible 2dr",3,6,220,3814,105,180,70
+"Audi A4 3.0 Quattro convertible",3,6,220,4013,105,180,70
+"Lexus GS 300 4dr",3,6,220,3649,110,189,71
+"Volkswagen Touareg V6",3.2,6,220,5086,112,187,76
+"Audi A6 3.0 Avant Quattro",3,6,220,4035,109,192,71
+"Land Rover Discovery SE",4.6,8,217,4576,100,185,74
+"Mercedes-Benz C320 Sport 2dr",3.2,6,215,3430,107,178,68
+"Lexus IS 300 4dr manual",3,6,215,3255,105,177,68
+"Lexus IS 300 4dr auto",3,6,215,3285,105,177,68
+"Mercedes-Benz C320 Sport 4dr",3.2,6,215,3430,107,178,68
+"Mercedes-Benz C320 4dr",3.2,6,215,3450,107,178,68
+"Mercedes-Benz C320 4dr",3.2,6,215,NA,107,178,68
+"Mercedes-Benz CLK320 coupe 2dr (",3.2,6,215,3770,107,183,69
+"Chrysler Crossfire 2dr",3.2,6,215,3060,95,160,70
+"Mitsubishi Endeavor XLS",3.8,6,215,4134,109,190,74
+"Mitsubishi Montero XLS",3.8,6,215,4718,110,190,75
+"Lexus IS 300 SportCross",3,6,215,3410,105,177,68
+"Chrysler Town and Country Limite",3.8,6,215,4331,119,201,79
+"Dodge Grand Caravan SXT",3.8,6,215,4440,119,201,79
+"Dodge Ram 1500 Regular Cab ST",3.7,6,215,4542,121,NA,NA
+"Subaru Outback H6 4dr",3,6,212,3610,104,184,69
+"Subaru Outback H-6 VDC 4dr",3,6,212,3630,104,184,69
+"Toyota Camry LE V6 4dr",3,6,210,3296,107,189,71
+"Toyota Avalon XL 4dr",3,6,210,3417,107,192,72
+"Toyota Camry XLE V6 4dr",3,6,210,3362,107,189,71
+"Saab 9-3 Arc Sport 4dr",2,4,210,3175,105,183,69
+"Saab 9-3 Aero 4dr",2,4,210,3175,105,183,69
+"Toyota Avalon XLS 4dr",3,6,210,3439,107,192,72
+"Saab 9-3 Arc convertible 2dr",2,4,210,3480,105,182,69
+"Saab 9-3 Aero convertible 2dr",2,4,210,3700,105,182,69
+"Mitsubishi Eclipse GTS 2dr",3,6,210,3241,101,177,69
+"Mitsubishi Eclipse Spyder GT con",3,6,210,3296,101,177,69
+"Ford Explorer XLT V6",4,6,210,4463,114,190,72
+"Mercury Mountaineer",4,6,210,4374,114,190,72
+"Dodge Dakota Regular Cab",3.7,6,210,3714,112,NA,NA
+"Dodge Dakota Club Cab",3.7,6,210,3829,131,NA,NA
+"Volvo S60 2.5 4dr",2.5,5,208,3903,107,180,71
+"Volvo S80 2.9 4dr",2.9,6,208,3576,110,190,72
+"Volvo XC70",2.5,5,208,3823,109,186,73
+"Mazda B4000 SE Cab Plus",4,6,207,3571,126,NA,NA
+"Buick LeSabre Custom 4dr",3.8,6,205,3567,112,200,74
+"Mitsubishi Diamante LS 4dr",3.5,6,205,3549,107,194,70
+"Buick LeSabre Limited 4dr",3.8,6,205,3591,112,200,74
+"Buick Park Avenue 4dr",3.8,6,205,3778,114,207,75
+"Ford Taurus SES Duratec 4dr",3,6,201,3313,109,198,73
+"Mercury Sable LS Premium 4dr",3,6,201,3315,109,200,73
+"Ford Escape XLS",3,6,201,3346,103,173,70
+"Mercury Monterey Luxury",4.2,6,201,4340,121,202,77
+"Chevrolet Malibu LS 4dr",3.5,6,200,3297,106,188,70
+"Chrysler Sebring Touring 4dr",2.7,6,200,3222,108,191,71
+"Dodge Intrepid SE 4dr",2.7,6,200,3469,113,204,75
+"Pontiac Grand Prix GT1 4dr",3.8,6,200,3477,111,198,74
+"Acura RSX Type S 2dr",2,4,200,2778,101,172,68
+"Acura TSX 4dr",2.4,4,200,3230,105,183,69
+"Buick Regal LS 4dr",3.8,6,200,3461,109,196,73
+"Chevrolet Impala LS 4dr",3.8,6,200,3476,111,200,73
+"Chevrolet Malibu LT 4dr",3.5,6,200,3315,106,188,70
+"Chevrolet Monte Carlo SS 2dr",3.8,6,200,3434,111,198,73
+"Chrysler Concorde LX 4dr",2.7,6,200,3479,113,208,74
+"Pontiac Grand Prix GT2 4dr",3.8,6,200,3484,111,198,74
+"Volkswagen Jetta GLI VR6 4dr",2.8,6,200,3179,99,172,68
+"Chrysler Sebring Limited convert",2.7,6,200,3448,106,194,69
+"Chevrolet Malibu Maxx LS",3.5,6,200,3458,112,188,70
+"Mazda MPV ES",3,6,200,3812,112,188,72
+"Chevrolet Silverado 1500 Regular",4.3,6,200,4142,119,NA,NA
+"Volvo C70 LPT convertible 2dr",2.4,5,197,3450,105,186,72
+"Mazda RX-8 4dr automatic",1.3,-1,197,3053,106,174,NA
+"Kia Amanti 4dr",3.5,6,195,NA,110,196,73
+"Jeep Grand Cherokee Laredo",4,6,195,3790,106,181,72
+"Kia Sedona LX",3.5,6,195,4802,115,194,75
+"Hyundai XG350 4dr",3.5,6,194,3651,108,192,72
+"Hyundai XG350 L 4dr",3.5,6,194,3651,108,192,72
+"Volvo S80 2.5T 4dr",2.5,5,194,3691,110,190,72
+"Ford Mustang 2dr (convertible)",3.8,6,193,3290,101,183,73
+"Isuzu Rodeo S",3.2,6,193,3836,106,178,70
+"Ford Freestar SE",3.9,6,193,4275,121,201,77
+"Jaguar X-Type 2.5 4dr",2.5,6,192,3428,107,184,70
+"Mercedes-Benz SLK230 convertible",2.3,4,192,3055,95,158,68
+"Kia Sorento LX",3.5,6,192,4112,107,180,73
+"Volkswagen Passat GLX V6 4MOTION",2.8,6,190,3721,106,185,69
+"Jeep Wrangler Sahara convertible",4,6,190,3575,93,150,67
+"Chevrolet Astro",4.3,6,190,4605,111,190,78
+"GMC Safari SLE",4.3,6,190,4309,111,190,78
+"GMC Sonoma Crew Cab",4.3,6,190,4083,123,NA,NA
+"Toyota Tundra Regular Cab V6",3.4,6,190,3925,128,NA,NA
+"Toyota Tundra Access Cab V6 SR5",3.4,6,190,4435,128,NA,NA
+"Mercedes-Benz C230 Sport 2dr",1.8,4,189,3250,107,178,68
+"Buick Rendezvous CX",3.4,6,185,4024,112,187,74
+"Pontiac Aztekt",3.4,6,185,3779,108,182,74
+"Suzuki XL-7 EX",2.7,6,185,3682,110,187,70
+"Chevrolet Venture LS",3.4,6,185,3699,112,187,72
+"Oldsmobile Silhouette GL",3.4,6,185,3948,120,201,72
+"Pontiac Montana",3.4,6,185,3803,112,187,72
+"Pontiac Montana EWB",3.4,6,185,4431,121,201,72
+"BMW 325i 4dr",2.5,6,184,3219,107,176,69
+"BMW 325Ci 2dr",2.5,6,184,3197,107,177,69
+"BMW 325Ci convertible 2dr",2.5,6,184,3560,107,177,69
+"BMW 325xi 4dr",2.5,6,184,3461,107,176,69
+"BMW 525i 4dr",2.5,6,184,3428,114,191,73
+"BMW Z4 convertible 2.5i 2dr",2.5,6,184,2932,98,161,70
+"BMW 325xi Sport",2.5,6,184,3594,107,176,69
+"Saturn L300-2 4dr",3,6,182,3197,107,190,69
+"Chevrolet Impala 4dr",3.4,6,180,3465,111,200,73
+"Chevrolet Monte Carlo LS 2dr",3.4,6,180,3340,111,198,73
+"Volkswagen GTI 1.8T 2dr hatch",1.8,4,180,2934,99,168,68
+"Audi TT 1.8 convertible 2dr (cou",1.8,4,180,3131,95,159,73
+"Toyota Celica GT-S 2dr",1.8,4,180,2500,102,171,68
+"Nissan Xterra XE V6",3.3,6,180,3760,104,178,70
+"Chrysler Town and Country LX",3.3,6,180,4068,119,201,79
+"Nissan Frontier King Cab XE V6",3.3,6,180,3932,116,NA,NA
+"Buick Century Custom 4dr",3.1,6,175,3353,109,195,73
+"Nissan Altima S 4dr",2.5,4,175,3039,110,192,70
+"Pontiac Grand Am GT 2dr",3.4,6,175,3118,107,186,70
+"Chevrolet Colorado Z85",2.8,4,175,3623,111,NA,NA
+"GMC Canyon Z85 SL Regular Cab",2.8,4,175,3351,111,NA,NA
+"Land Rover Freelander SE",2.5,6,174,3577,101,175,71
+"Hyundai Santa Fe GLS",2.7,6,173,3549,103,177,73
+"Hyundai Tiburon GT V6 2dr",2.7,6,172,3023,100,173,69
+"Ford Focus SVT 2dr",2,4,170,2750,103,168,67
+"Hyundai Sonata GLS 4dr",2.7,6,170,3217,106,187,72
+"Hyundai Sonata LX 4dr",2.7,6,170,3217,106,187,72
+"Kia Optima LX V6 4dr",2.7,6,170,3279,106,186,72
+"Audi A4 1.8T 4dr",1.8,4,170,3252,104,179,70
+"Oldsmobile Alero GLS 2dr",3.4,6,170,3085,107,187,70
+"Volkswagen Passat GLS 4dr",1.8,4,170,3241,106,185,69
+"Volvo S40 4dr",1.9,4,170,2767,101,178,68
+"Audi A41.8T convertible 2dr",1.8,4,170,3638,105,180,70
+"Volkswagen Passat GLS 1.8T",1.8,4,170,3338,106,184,69
+"Volvo V40",1.9,4,170,2822,101,180,68
+"Mercedes-Benz C240 4dr",2.6,6,168,3360,107,178,68
+"Mercedes-Benz C240 4dr",2.6,6,168,3360,107,178,68
+"Mercedes-Benz C240",2.6,6,168,3470,107,179,68
+"Nissan Sentra SE-R 4dr",2.5,4,165,2761,100,178,67
+"Subaru Impreza 2.5 RS 4dr",2.5,4,165,2965,99,174,69
+"Subaru Legacy L 4dr",2.5,4,165,3285,104,184,69
+"Subaru Legacy GT 4dr",2.5,4,165,3395,104,184,69
+"Subaru Outback Limited Sedan 4dr",2.5,4,165,3495,104,184,69
+"Chevrolet Tracker",2.5,6,165,2866,98,163,67
+"Suzuki Vitara LX",2.5,6,165,3020,98,163,67
+"Subaru Forester X",2.5,4,165,3090,99,175,68
+"Subaru Outback",2.5,4,165,3430,104,187,69
+"Subaru Baja",2.5,4,165,3485,104,NA,NA
+"Mini Cooper S",1.6,4,163,2678,97,144,67
+"Toyota RAV4",2.4,4,161,3119,98,167,68
+"Honda Accord LX 2dr",2.4,4,160,2994,105,188,71
+"Honda Accord EX 2dr",2.4,4,160,3047,105,188,71
+"Honda Civic Si 2dr hatch",2,4,160,2782,101,166,67
+"Mazda3 s 4dr",2.3,4,160,2762,NA,NA,NA
+"Mazda6 i 4dr",2.3,4,160,3042,105,187,70
+"Mitsubishi Galant ES 2.4L 4dr",2.4,4,160,3351,108,191,72
+"Honda CR-V LX",2.4,4,160,3258,103,179,70
+"Honda Element LX",2.4,4,160,3468,101,167,72
+"Mitsubishi Outlander LS",2.4,4,160,3240,103,179,69
+"Mitsubishi Lancer Sportback LS",2.4,4,160,3020,102,181,67
+"Toyota Camry LE 4dr",2.4,4,157,3086,107,189,71
+"Toyota Camry Solara SE 2dr",2.4,4,157,3175,107,193,72
+"Suzuki Aeno S 4dr",2.3,4,155,2676,98,171,68
+"Suzuki Aerio LX 4dr",2.3,4,155,2676,98,171,68
+"Ford Taurus LX 4dr",3,6,155,3306,109,198,73
+"Mercury Sable GS 4dr",3,6,155,3308,109,200,73
+"Suzuki Verona LX 4dr",2.5,6,155,3380,106,188,72
+"Ford Taurus SE",3,6,155,3497,109,198,73
+"Mercury Sable GS",3,6,155,3488,109,198,73
+"Suzuki Aerio SX",2.3,4,155,2932,98,167,68
+"Chrysler PT Cruiser 4dr",2.4,4,150,3101,103,169,67
+"Chrysler PT Cruiser Limited 4dr",2.4,4,150,3105,103,169,67
+"Chrysler Sebring 4dr",2.4,4,150,3173,108,191,71
+"Dodge Stratus SXT 4dr",2.4,4,150,3182,108,191,71
+"Dodge Stratus SE 4dr",2.4,4,150,3175,108,191,71
+"Volkswagen New Beetle GLS 1.8T 2",1.8,4,150,2820,99,161,68
+"Chrysler Sebring convertible 2dr",2.4,4,150,3357,106,194,64
+"Jeep Liberty Sport",2.4,4,150,3826,104,174,72
+"Dodge Caravan SE",2.4,4,150,3862,113,189,79
+"Mazda3 i 4dr",2,4,148,2696,NA,NA,NA
+"Chevrolet Malibu 4dr",2.2,4,145,3174,106,188,70
+"Saturn VUE",2.2,4,143,3381,107,181,72
+"Ford Ranger 2.3 XL Regular Cab",2.3,4,143,3028,111,NA,NA
+"Mazda B2300 SX Regular Cab",2.3,4,143,2960,112,NA,NA
+"Mazda MX-5 Miata convertible 2dr",1.8,4,142,2387,89,156,66
+"Mazda MX-5 Miata LS convertible",1.8,4,142,2387,89,156,66
+"Toyota Tacoma",2.4,4,142,2750,103,NA,NA
+"Chevrolet Cavalier 2dr",2.2,4,140,2617,104,183,69
+"Chevrolet Cavalier 4dr",2.2,4,140,2676,104,183,68
+"Chevrolet Cavalier LS 2dr",2.2,4,140,2617,104,183,69
+"Pontiac Sunfire 1SA 2dr",2.2,4,140,2771,104,182,68
+"Saturn Ion1 4dr",2.2,4,140,2692,103,185,67
+"Saturn lon2 4dr",2.2,4,140,2692,103,185,67
+"Saturn lon3 4dr",2.2,4,140,2692,103,185,67
+"Saturn lon2 quad coupe 2dr",2.2,4,140,2751,103,185,68
+"Saturn lon3 quad coupe 2dr",2.2,4,140,2751,103,185,68
+"Oldsmobile Alero GX 2dr",2.2,4,140,2946,107,187,70
+"Pontiac Sunfire 1SC 2dr",2.2,4,140,2771,104,182,68
+"Saturn L300 2",2.2,4,140,3109,107,190,69
+"Hyundai Elantra GLS 4dr",2,4,138,2635,103,178,68
+"Hyundai Elantra GT 4dr",2,4,138,2635,103,178,68
+"Hyundai Elantra GT 4dr hatch",2,4,138,2698,103,178,68
+"Kia Optima LX 4dr",2.4,4,138,3281,106,186,72
+"Toyota MR2 Spyder convertible 2d",1.8,4,138,2195,97,153,67
+"Dodge Neon SE 4dr",2,4,132,2581,105,174,67
+"Dodge Neon SXT 4dr",2,4,132,2626,105,174,67
+"Ford Focus ZX3 2dr hatch",2,4,130,2612,103,168,67
+"Ford Focus SE 4dr",2,4,130,2606,103,168,67
+"Ford Focus ZX5 5dr",2,4,130,2691,103,168,67
+"Toyota Corolla CE 4dr",1.8,4,130,2502,102,178,67
+"Toyota Corolla S 4dr",1.8,4,130,2524,102,178,67
+"Toyota Corolla LE 4dr",1.8,4,130,2524,102,178,67
+"Mazda Tribute DX 2.0",2,4,130,3091,103,173,72
+"Ford Focus ZTW",2,4,130,2702,103,178,67
+"Pontiac Vibe",1.8,4,130,2701,102,172,70
+"Toyota Matrix XR",1.8,4,130,2679,102,171,70
+"Honda Civic EX 4dr",1.7,4,127,2601,103,175,68
+"Nissan Sentra 1.8 4dr",1.8,4,126,2513,100,178,67
+"Nissan Sentra 1.8 S 4dr",1.8,4,126,2581,100,178,67
+"Kia Spectra 4dr",1.8,4,124,2661,101,178,68
+"Kia Spectra GS 4dr hatch",1.8,4,124,2686,101,178,68
+"Kia Spectra GSX 4dr hatch",1.8,4,124,2697,101,178,68
+"Mitsubishi Lancer ES 4dr",2,4,120,2656,102,181,67
+"Mitsubishi Lancer LS 4dr",2,4,120,2795,102,181,67
+"Mitsubishi Lancer OZ Rally 4dr a",2,4,120,2744,102,181,67
+"Suzuki Forenza S 4dr",2,4,119,2701,102,177,68
+"Suzuki Forenza EX 4dr",2,4,119,2756,102,177,68
+"Honda Civic HX 2dr",1.7,4,117,2500,103,175,67
+"Honda Civic DX 2dr",1.7,4,115,2432,103,175,67
+"Honda Civic LX 4dr",1.7,4,115,2513,103,175,68
+"Mini Cooper",1.6,4,115,2524,97,143,67
+"Volkswagen Golf GLS 4dr",2,4,115,2897,99,165,68
+"Volkswagen New Beetle GLS conver",2,4,115,3082,99,161,68
+"Volkswagen Jetta GL",2,4,115,3034,99,174,68
+"Ford Focus LX 4dr",2,4,110,2606,103,168,67
+"Toyota Prius 4dr (gas/electric)",1.5,4,110,2890,106,175,68
+"Scion xA 4dr hatch",1.5,4,108,2340,93,154,67
+"Toyota Echo 2dr manual",1.5,4,108,2035,93,163,65
+"Toyota Echo 2dr auto",1.5,4,108,2085,93,163,65
+"Toyota Echo 4dr",1.5,4,108,2055,93,163,65
+"Scion xB",1.5,4,108,2425,98,155,67
+"Kia Rio 4dr manual",1.6,4,104,2403,95,167,66
+"Kia Rio 4dr auto",1.6,4,104,2458,95,167,66
+"Kia Rio Cinco",1.6,4,104,2447,95,167,66
+"Chevrolet Aveo 4dr",1.6,4,103,2370,98,167,66
+"Chevrolet Aveo LS 4dr hatch",1.6,4,103,2348,98,153,66
+"Hyundai Accent 2dr hatch",1.6,4,103,2255,96,167,66
+"Hyundai Accent GL 4dr",1.6,4,103,2290,96,167,66
+"Hyundai Accent GT 2dr hatch",1.6,4,103,2339,96,167,66
+"Volkswagen Jetta GLS TDI 4dr",1.9,4,100,3003,99,172,68
+"Honda Civic Hybrid 4dr manual (g",1.4,4,93,2732,103,175,68
+"Honda Insight 2dr (gas/electric)",2,3,73,1850,95,155,67
