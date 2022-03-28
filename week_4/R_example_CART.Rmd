@@ -1,0 +1,395 @@
+---
+title: "CART & RF"
+author: "Daniel Fernández"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: html_document
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In this practice, we are going to see all the methods that have been explained in the first part of the class. For this, we will use various databases that will help us better exemplify each of the classification and regression tree methods.
+
+We always start by deleting all the possible objects of R that could have been left in memory. 
+
+```{r, include=TRUE}
+rm(list = ls())
+```
+### Getting the dataset and pre-processing
+
+First, as always, we load the packages we will need. 
+
+The package *rpart* runs CART, *dplyr* and *ggplot2* will help us with data manipulation and graphs, and *kableExtra* will help us to print beautiful tables.
+
+```{r message=FALSE,warning=FALSE}
+library(rpart)
+library(dplyr)
+library(ggplot2)
+library(kableExtra)
+```
+
+The problem we want to solve is to build a classification tree model that can *differentiate between spam and non-spam email*.
+
+The database and its documentation can be obtained from (Blake and Mers (1998) UC Irvine Machine Learning):
+
+https://archive.ics.uci.edu/ml/datasets/spambase
+
+![](Screenshotspam.png)
+
+This data set has several variables/features for each person (case).
+
+It has 4601 emails of which 1813 were identified as spam. This is identified with a binary response variable labeled as a _yesno_ (spam e-mail yes or no) and we are going to use 6 descriptive variables:
+
+* crl.tot: number of words in uppercase
+* dollar: the frequency of the $ symbol, as a percentage of all characters
+* bang: the frequency of the! symbol, as a percentage of all characters
+* money: the frequency of the word "money", as a percentage of all characters
+* n000: the frequency of the word "000", as a percentage of all characters
+* make: the frequency of the word "make", as a percentage of all characters
+ 
+We want to create a classification tree that gives us the rules to classify an email as spam or not depending on the 6 descriptive variables above. For this we will use the R package *rpart*
+
+We have downloaded the database in comma separated text (CSV) format from the web and we read it from our local folder.
+
+```{r, include=TRUE}
+spam <- read.csv("spambase.csv", dec=",", header=FALSE)
+```
+The original database has many variables (you can read it in the database documentation). We assign the name of the variables:
+
+```{r, include=TRUE}
+newColNames <- c("make", "word_freq_address", "word_freq_all", "word_freq_3d", "word_freq_our", "word_freq_over", "word_freq_remove", "word_freq_internet", "word_freq_order", "word_freq_mail", "word_freq_receive", "word_freq_will","word_freq_people", "word_freq_report", "word_freq_addresses", "word_freq_free", "word_freq_business", "word_freq_email", "word_freq_you", "word_freq_credit",  "word_freq_your", "word_freq_font", "n000", "money",  "word_freq_hp", "word_freq_hpl", "word_freq_george", "word_freq_650", "word_freq_lab", "word_freq_labs", "word_freq_telnet", "word_freq_857", "word_freq_data", "word_freq_415", "word_freq_85", "word_freq_technology", "word_freq_1999",  "word_freq_parts", "word_freq_pm", "word_freq_direct", "word_freq_cs", "word_freq_meeting", 
+ "word_freq_original", "word_freq_project", "word_freq_re", "word_freq_edu",  "word_freq_table", "word_freq_conference", "char_freq_ch;", "char_freq_ch(",  "char_freq_ch[", "bang", "dollar", "char_freq_ch#", "capital_run_length_average",  "capital_run_length_longest", "crl.tot", "yesno")
+
+colnames(spam) <- newColNames
+```
+
+And we select the 7 variables that interest us
+```{r, include=TRUE}
+spam7 <- spam[,c( "yesno", "crl.tot", "dollar", "bang", "money", "n000", "make")]
+head(spam7)
+```
+
+We check the structure of the chosen data set
+```{r, include=TRUE}
+str(spam7)
+```
+
+R read some numeric variables as characters, let's set them as numeric using the command *as.numeric()*:
+```{r, include=TRUE}
+spam7$dollar <- as.numeric(spam7$dollar)
+spam7$bang <- as.numeric(spam7$bang)
+spam7$money <- as.numeric(spam7$money)
+spam7$n000 <- as.numeric(spam7$n000)
+spam7$make <- as.numeric(spam7$make)
+```
+
+We change the binary response variable *spam7* to factor:
+```{r, include=TRUE}
+table(spam7$yesno)
+spam7$yesno <- as.factor(ifelse(spam7$yesno<1,"no","yes"))
+```
+
+Let's check that all type changes has been done in a correct way
+```{r, include=TRUE}
+table(spam7$yesno)
+```
+
+We check the structure of the data set again to see that all changes performed were applied:
+```{r, include=TRUE}
+str(spam7)
+```
+
+### Exploring the data set
+
+```{r, include=TRUE}
+spam7 %>%
+  sample_n(., 20, replace=FALSE) %>% 
+  arrange(yesno) %>% 
+  kbl(caption = "Spam data set (sample of 20)") %>%
+  kable_classic(full_width = F, html_font = "Cambria")
+```
+
+Let's do a little bit of Exploratory Data Analysis (EDA)
+
+We can calculate basic statistics on each of the data frame's columns with _summary_
+
+```{r, include=TRUE}
+spam7 %>% 
+  summary(.) %>% 
+  kbl(caption = "Basic statistics. Spam data set") %>%
+  kable_classic(full_width = F, html_font = "Cambria")
+```
+
+There are no missing values.
+
+We roughly check the distributions (*avoiding the zeros* as they dominate the variables. That's normal (there are more e-mails no spam))
+
+```{r, include=TRUE}
+library(gridExtra)
+g1 <- spam7 %>% 
+      filter(dollar>0) %>% 
+      ggplot(.,aes(x=yesno, y=dollar, fill=yesno)) + 
+      geom_boxplot() + 
+      theme(legend.position="none") 
+g2 <- spam7 %>% 
+      filter(bang>0) %>% 
+      ggplot(.,aes(x=yesno, y=bang, fill=yesno)) + 
+      geom_boxplot() + 
+      theme(legend.position="none") 
+g3 <- spam7 %>% 
+      filter(money>0) %>% 
+      ggplot(.,aes(x=yesno, y=money, fill=yesno)) + 
+      geom_boxplot() + 
+      theme(legend.position="none") 
+g4 <- spam7 %>% 
+      filter(n000>0) %>% 
+      ggplot(.,aes(x=yesno, y=n000, fill=yesno)) + 
+      geom_boxplot() + 
+      theme(legend.position="none") 
+g5 <- spam7 %>% 
+      filter(make>0) %>% 
+      ggplot(.,aes(x=yesno, y=make, fill=yesno)) + 
+      geom_boxplot() + 
+      theme(legend.position="none") 
+g6 <- spam7 %>% 
+      filter(crl.tot>0) %>% 
+      ggplot(.,aes(x=yesno, y=crl.tot, fill=yesno)) + 
+      geom_boxplot() + 
+      theme(legend.position="none") 
+
+grid.arrange(g1,g2,g3,g4,g5,g6,nrow=3)
+```
+
+There are possible outliers but it is not implausible to get those higher values in an e-mail. Therefore, we left them
+
+*Note*: We skip here that part of more analyses for the sake of having more time to work on CART and RF. You can do similar things to the ones we did in PCA or LDA sessions (histograms, correlations, missing values,...).
+
+
+### Running first Classification Tree (all data set)
+
+We fit the classification tree model using all the descriptive variables.
+*method = "class"* is used for classification tree
+
+```{r, include=TRUE}
+spam.class <- rpart(formula= yesno ~ crl.tot + dollar + bang + money + n000 + make, method="class", data=spam7)
+summary(spam.class)
+```
+
+The *summary* is displaying the tree in text format.  As we can see, it is difficult to clearly appreciate the rules. Better to use some visual tool.
+
+Thus, we draw the classification tree and add the text / labels to it:
+```{r, include=TRUE}
+plot(spam.class, margin=0.15) 
+text(spam.class,cex=0.65)
+```
+
+If we use the parameter *use.n = TRUE* we obtain the number of observations per node.
+```{r, include=TRUE}
+plot(spam.class, margin=0.15) 
+text(spam.class,cex=0.65, use.n=TRUE)
+```
+
+
+If we use the *uniform = TRUE* parameter, the distance between nodes is controlled and the graph will probably be better visualized 
+```{r, include=TRUE}
+plot(spam.class, margin=0.15, uniform=TRUE) 
+text(spam.class,cex=0.65, use.n=TRUE)
+```
+
+
+In each division, the observations for which the condition is fulfilled take the branch to the left. For example, dollar <0.0555 and bang <0.0915 lead to the prediction that the email is not spam. The terminal nodes are called "leaves". The number of splits is the size of the trees and is always one minus the number of leaves. 
+
+
+### Prediction
+
+Firstly, as we explained in class, we split the data into training set (80%) and test set (20%):
+```{r, message=FALSE}
+library(caret)
+set.seed(123)
+training.samples <- spam7$yesno %>%
+      createDataPartition(p = 0.8, list = FALSE)
+
+train.spam7 <- spam7[training.samples, ]
+test.spam7 <- spam7[-training.samples, ]
+paste0("Proportion of training is ", round((nrow(train.spam7)/nrow(spam7))*100,2),"%")
+paste0("Proportion of test is ", round((nrow(test.spam7)/nrow(spam7))*100,2),"%")
+```
+
+We model the classification tree with the subset of **training** data
+```{r, include=TRUE}
+spam.tree.train <- rpart(formula= yesno ~ crl.tot + dollar + bang + money + n000 + make, method="class", data=train.spam7)
+```
+
+and we graph
+```{r, include=TRUE}
+plot(spam.tree.train, uniform=TRUE, margin=0.1) 
+text(spam.tree.train,cex=0.5, use.n=TRUE) 
+```
+
+Now we have the "trained" classification tree and we are going to use it with the **test** database to validate that it predicts correctly.
+For this we use the function *predict (trained_object, test_data)*
+
+Note: I put it as a percentage to make it look better
+```{r, include=TRUE}
+predicted <- round(predict(spam.tree.train,test.spam7),4)*100
+head(predicted)
+nrow(predicted)
+```
+We put it all together using *data.frame* to show the real/truth and the prediction:
+```{r, include=TRUE}
+predicted.vs.real <- data.frame(predicted, test.spam7$yesno)
+predicted.vs.real[sample(nrow(predicted),10),]
+```
+
+We can also do a crosstable to see the results:
+```{r, include=TRUE}
+pred.spam <- ifelse(predicted.vs.real[,"no"]>predicted.vs.real[,"yes"],"no","yes")
+results <- table(pred.spam,test.spam7$yesno)
+results
+```
+
+And therefore the percentage of success/accuracy of the tree is:
+```{r, include=TRUE}
+(results[1,1] + results[2,2])/sum(results) * 100
+```
+
+which is quite high, i.e. there is a `r round(100 - ((results[1,1] + results[2,2])/sum(results) * 100),2)`% error, which is quiet good.
+
+
+### Random Forest
+
+We are going to build a random forest model that can solve the same problem than in the previous section: build descriptive variable rules to classify e-mails as spam or not.
+
+We have to use the package *randomForest*:
+
+```{r, message=FALSE}
+library(randomForest)
+```
+
+As a remark the  *randomForest()* function requires that the *response variable is in numeric form*. Thus, we transform it into both the training set and the test that we have built in the previous section:
+
+```{r, include=TRUE}
+train.spam7.rf <- train.spam7
+test.spam7.rf <- test.spam7
+head(train.spam7.rf$yesno)
+head(test.spam7.rf$yesno)
+
+train.spam7.rf$yesno <- ifelse(train.spam7.rf$yesno=="yes",1,0)
+test.spam7.rf$yesno <- ifelse(test.spam7.rf$yesno=="yes",1,0)
+
+train.spam7.rf$yesno <- as.factor(train.spam7.rf$yesno)
+test.spam7.rf$yesno <- as.factor(test.spam7.rf$yesno)
+```
+
+We check that the transformation has no problems:
+```{r, include=TRUE}
+table(train.spam7$yesno,train.spam7.rf$yesno)
+table(test.spam7$yesno,test.spam7.rf$yesno)
+```
+
+Now, we run the Random Forest:
+```{r, include=TRUE}
+rf.train <- randomForest(yesno ~ ., data=train.spam7.rf, ntree=200)
+print(rf.train)
+```
+The *confusion matrix* informs us about the error % in each class. 
+The *OOB estimate of error rate* informs us about prediction error. 
+In this case, it is lower (`r round(rf.train$err.rate[200,1]*100,2)`%) than the one from the single classification tree over the training data set (`r round(100 - ((results[1,1] + results[2,2])/sum(results) * 100),2)`%), which makes sense since we are doing multiple classification trees.
+
+Now let's check the plot displaying the error that was made with the 95% CI. 
+```{r, include=TRUE}
+plot(rf.train)
+```
+
+It is observed that the more trees the less error.
+
+#### Prediction in RF
+
+As before, let's check the prediction over the test data set:
+```{r, include=TRUE}
+predicted <- predict(rf.train,test.spam7.rf)
+head(predicted)
+length(predicted)
+pred.spam.rf <- ifelse(predicted==0,"no","yes")
+results.rf <- table(pred.spam.rf,test.spam7.rf$yesno)
+results.rf
+(results.rf[1,1] + results.rf[2,2])/sum(results.rf) * 100
+```
+which logically is higher than previously with a classification tree (`r round(((results[1,1] + results[2,2])/sum(results) * 100),2)`%).
+
+We can change *the number of trees* the random forest can use and see if we get better.
+We can also force to *select more variables* for each tree  (parameter *mtry*). We were doing 2 so far (*No. of variables tried at each split: 2*). Let's try with 4.
+
+```{r, include=TRUE}
+rf.train2<- randomForest(yesno ~ ., data=train.spam7.rf, ntree=200, mtry=4)
+print(rf.train2)
+```
+
+Let's repeat the same error plot with 95% CI
+```{r, include=TRUE}
+plot(rf.train2)
+```
+
+The more trees, the less error. 
+
+Let's see what happens with the prediction (as before):
+```{r, include=TRUE}
+predicted2 <- predict(rf.train2,test.spam7.rf)
+head(predicted2)
+length(predicted2)
+pred.spam.rf2 <- ifelse(predicted2==0,"no","yes")
+results.rf2 <- table(pred.spam.rf2,test.spam7.rf$yesno)
+results.rf2
+(results.rf2[1,1] + results.rf2[2,2])/sum(results.rf2) * 100
+```
+
+which is close (but better) to the previous random forest (`r round(((results.rf[1,1] + results.rf[2,2])/sum(results.rf) * 100),2)`%).
+
+### Regression Trees
+
+We have the data set  **car.test.frame** included in the *rpart* package. 
+
+It is composed of 60 car brands & 8 variables:
+
+```{r, include=TRUE}
+str(car.test.frame)
+dim(car.test.frame)
+```
+
+It contains the price, country, weight, mileage... and more variables.
+
+```{r, include=TRUE}
+head(car.test.frame) %>% 
+  kbl(caption = "Cars data set. First 6 rows") %>%
+  kable_classic(full_width = F, html_font = "Cambria")
+```
+
+We are going to apply a regression tree for the dependent variable Mileage (numeric) and the independent variables Weight, Price and Reliability. 
+
+For this, the option *method = "anova"* is used to indicate to generate a regression tree
+```{r, include=TRUE}
+car.tree <- rpart(formula=  Mileage ~ Weight + Price + Reliability, 
+                    method="anova", data=car.test.frame)
+```
+
+We depict the regression tree
+```{r, include=TRUE}
+plot(car.tree,uniform=TRUE,margin=0.1)
+text(car.tree,cex=0.65, use.n=TRUE)
+```
+
+As can be seen in the tree, the Weight and Price variables are important to determine the Mileage, while Reliability is not.
+Also in the *summary()* the same information is shown.
+```{r, include=TRUE}
+#Variable importance
+#Price Weight 
+#54     46 
+summary(car.tree)
+```
+
+We could predict as we have done before: 1) train + test and 2) *predict()* function (not shown)
+
+Finally, I recommend to save an image of all objects created in the session.
+```{r, include=TRUE}
+save.image(file="R_Example_CART.RData")

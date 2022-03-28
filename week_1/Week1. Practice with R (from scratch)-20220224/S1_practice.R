@@ -436,8 +436,11 @@ bike <- read.csv("bikes.csv")
 dim(bike)
 head(bike)
 tail(bike)
-str(bike) ###########PREGUNTAR QUE HACE ESTO :/
+str(bike) 
 
+
+###########PREGUNTAR#################################################################
+#####################################################################################
 
 # Description of the data set
 # We can see a summary of the data, using the summary function 
